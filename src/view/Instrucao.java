@@ -1,4 +1,4 @@
-package view;
+package src.view;
 
 public class Instrucao {
 	int posicao, valor;

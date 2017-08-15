@@ -1,4 +1,4 @@
-package view;
+package src.view;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
