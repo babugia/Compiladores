@@ -56,15 +56,29 @@ import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
+import javax.swing.JMenu;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JFileChooser;
 
 public class viewMain extends JFrame {
 
 	protected static final Component Component = null;
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JScrollPane  entradaScrollPane;
+	private JScrollPane  EntradaScrollPane;
 	private JTextArea textArea;
+	private JMenuBar menuBar;
+	private JMenu mnNewMenu_Arquivo;
+	private JMenu mnExecutar;
+	private JMenu mnExit;
 	private JTable table;
+	private JTable table_1;
+	private JTable table_Instrucoes;
+	private JScrollPane ConteudoPilhascrollPane;
+	private JTable table_Pilha;
+	private JScrollPane SaindascrollPane;
+	private JScrollPane BreakPointscrollPane;
+	private JFileChooser fileChooser;
 	
 
 	/**
@@ -88,25 +102,44 @@ public class viewMain extends JFrame {
 	 * Create the frame.
 	 */
 	public viewMain() {
-		Path caminho = Paths.get("/Users/babugia/Documents/teste.txt");
+		Path caminho = Paths.get("C:\\\\Users\\\\Murilo\\\\Documents\\\\Compiladores\\\\teste\\\\teste.txt");
 		ArrayList<Instrucao> instrucoes = new ArrayList<Instrucao>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1062, 600);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnNewMenu_Arquivo = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu_Arquivo);
+		
+		
+		fileChooser = new JFileChooser();
+		mnNewMenu_Arquivo.add(fileChooser);
+		
+		
+		
+		
+		mnExecutar = new JMenu("Executar");
+		menuBar.add(mnExecutar);
+		
+		mnExit = new JMenu("Exit");
+		menuBar.add(mnExit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 				
 		JButton btnNewButton = new JButton("Ler");
 		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		btnNewButton.addActionListener(new ActionListener() {
+		mnNewMenu_Arquivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					byte[] texto = Files.readAllBytes(caminho);
 					List<String> teste = Files.readAllLines(caminho);
 					
 					String leitura = new String(texto);
-//					JOptionPane.showMessageDialog(null, leitura);
+					JOptionPane.showMessageDialog(null, leitura);
 					txtName.setText(leitura);
 					
 					String instrucao = null;
@@ -135,81 +168,126 @@ public class viewMain extends JFrame {
 							instrucoes.add(ins);
 							
 							
-							textArea.append(ins.instrucao+' '+ ins.atributo1 +'\n');		
+							//textArea.append(ins.instrucao+' '+ ins.atributo1 +'\n');		
 							
 						System.out.println(ins.instrucao+'\n');
 					
-						
-						
 					}
-
 					
 				} catch(Exception erro) {
 					
 				}
-//				JOptionPane.showMessageDialog(null, "Nome: " +txtName.getText());
+				//JOptionPane.showMessageDialog(null, "Nome: " +txtName.getText());
 			}
-			
-			
-			
 			
 		});
 		
 		txtName = new JTextField();
 		txtName.setColumns(10);
 		
-		JLabel labelTitle = new JLabel("Aprendendo");
-		labelTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		
-		entradaScrollPane = new JScrollPane();
-		entradaScrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de entrada", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
-		entradaScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		EntradaScrollPane = new JScrollPane();
+		EntradaScrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de entrada", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		EntradaScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		table = new JTable();
+		
+		table_1 = new JTable();
+		
+		JScrollPane InstrucoesExecutarscrollPane = new JScrollPane();
+		
+		ConteudoPilhascrollPane = new JScrollPane();
+		
+		SaindascrollPane = new JScrollPane();
+		SaindascrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de Saída", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		SaindascrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		BreakPointscrollPane = new JScrollPane();
+		BreakPointscrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de Break Point", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		BreakPointscrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(24)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 1551, Short.MAX_VALUE)
-						.addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+							.addGap(63)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(EntradaScrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+									.addGap(86)
+									.addComponent(BreakPointscrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(4)
+									.addComponent(InstrucoesExecutarscrollPane, GroupLayout.PREFERRED_SIZE, 767, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(ConteudoPilhascrollPane, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(44)
+									.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap())
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(147)
-							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(434))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(97)
-							.addComponent(entradaScrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-							.addGap(71)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE)))
-					.addGap(925))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(1)
-					.addComponent(labelTitle, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(InstrucoesExecutarscrollPane, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(71)
+							.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+							.addGap(61)
+							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(ConteudoPilhascrollPane, 0, 0, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(80)
-							.addComponent(btnNewButton)
-							.addPreferredGap(ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-							.addComponent(entradaScrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-							.addGap(82))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(129)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+						.addComponent(EntradaScrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+						.addComponent(BreakPointscrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+						.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton)))
 		);
 		
+		table_Pilha = new JTable();
+		table_Pilha.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null},
+			},
+			new String[] {
+				"Valor", "Endere\u00E7o"
+			}
+		));
+		ConteudoPilhascrollPane.setViewportView(table_Pilha);
+		
+		table_Instrucoes = new JTable();
+		table_Instrucoes.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"Linha", "Instru\u00E7\u00E3o", "Atributo #1", "Atributo #2", "Coment\u00E1rio"
+			}
+		));
+		table_Instrucoes.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table_Instrucoes.getColumnModel().getColumn(1).setPreferredWidth(65);
+		table_Instrucoes.getColumnModel().getColumn(2).setPreferredWidth(82);
+		table_Instrucoes.getColumnModel().getColumn(3).setPreferredWidth(82);
+		table_Instrucoes.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table_Instrucoes.getColumnModel().getColumn(4).setMinWidth(22);
+		InstrucoesExecutarscrollPane.setViewportView(table_Instrucoes);
+		
 		textArea = new JTextArea();
-		entradaScrollPane.setViewportView(textArea);
+		EntradaScrollPane.setRowHeaderView(textArea);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
