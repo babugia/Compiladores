@@ -1,22 +1,22 @@
 package src.view;
 
 public class Instrucao {
-	int posicao, valor;
+	int atributo1, atributo2;
 	String instrucao;
 	
 	public Instrucao(String instrucao) {
 		this.instrucao = instrucao;
 	}
 	
-	public Instrucao(String instrucao, int posicao) {
+	public Instrucao(String instrucao, int atributo1) {
 		this.instrucao = instrucao;
-		this.posicao = posicao;
+		this.atributo1 = atributo1;
 	}
 	
-	public Instrucao(String instrucao, int posicao, int valor) {
+	public Instrucao(String instrucao, int atributo1, int atributo2) {
 		this.instrucao = instrucao;
-		this.posicao = posicao;
-		this.valor = valor;
+		this.atributo1 = atributo1;
+		this.atributo2 = atributo2;
 	}
 	
 	public Instrucao() {
