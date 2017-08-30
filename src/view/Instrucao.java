@@ -23,6 +23,17 @@ public class Instrucao {
 		
 	}
 	
+	public String getInstrucao() {
+		return instrucao;
+	}
+	
+	public int getAtributo1() {
+		return this.atributo1;
+	}
+	public int getAtributo2() {
+		return this.atributo2;
+	}
+	
 	public void setInstrucao(String instrucao) {
 		this.instrucao = instrucao;
 	}

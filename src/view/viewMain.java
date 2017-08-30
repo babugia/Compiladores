@@ -12,7 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -54,18 +60,26 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JTextArea;
 import javax.swing.JTable;
 import javax.swing.JMenu;
 import javax.swing.table.DefaultTableModel;
+
+import src.MV.InstrucoesTableModel;
+
 import javax.swing.JFileChooser;
 
-public class viewMain extends JFrame {
+public class viewMain extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static final Component Component = null;
 	private JPanel contentPane;
-	private JTextField txtName;
-	private JScrollPane  EntradaScrollPane;
+	private JScrollPane EntradaScrollPane;
 	private JTextArea textArea;
 	private JMenuBar menuBar;
 	private JMenu mnNewMenu_Arquivo;
@@ -79,13 +93,19 @@ public class viewMain extends JFrame {
 	private JScrollPane SaindascrollPane;
 	private JScrollPane BreakPointscrollPane;
 	private JFileChooser fileChooser;
-	
+	private ArrayList<Instrucao> instrucoes;
+	private InstrucoesTableModel tm;
+	private Path caminho;
+	private File file;
+	private String filePath;
+	private JMenuItem mi;
+	private JButton btnOpen;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -102,138 +122,75 @@ public class viewMain extends JFrame {
 	 * Create the frame.
 	 */
 	public viewMain() {
-		Path caminho = Paths.get("C:\\\\Users\\\\Murilo\\\\Documents\\\\Compiladores\\\\teste\\\\teste.txt");
-		ArrayList<Instrucao> instrucoes = new ArrayList<Instrucao>();
+		instrucoes = new ArrayList<Instrucao>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1062, 600);
-		
+
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
-		mnNewMenu_Arquivo = new JMenu("Arquivo");
-		menuBar.add(mnNewMenu_Arquivo);
-		
-		
+
+		btnOpen = new JButton("Arquivo");
+		btnOpen.addActionListener(this);
+		menuBar.add(btnOpen);
+
 		fileChooser = new JFileChooser();
-		mnNewMenu_Arquivo.add(fileChooser);
-		
-		
-		
-		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
 		mnExecutar = new JMenu("Executar");
 		menuBar.add(mnExecutar);
-		
+
 		mnExit = new JMenu("Exit");
 		menuBar.add(mnExit);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-				
-		JButton btnNewButton = new JButton("Ler");
-		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		mnNewMenu_Arquivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					byte[] texto = Files.readAllBytes(caminho);
-					List<String> teste = Files.readAllLines(caminho);
-					
-					String leitura = new String(texto);
-					JOptionPane.showMessageDialog(null, leitura);
-					txtName.setText(leitura);
-					
-					String instrucao = null;
-					String atributo2 = null;
-					String atributo1 = null;
-					
-					Instrucao ins;
-							
-					for(int i=0;i<teste.size();i++) {
-						String x[] = teste.get(i).split(" ");
-						instrucao = x[0];
-						atributo1 = x[1];
-						
-						if(atributo1.indexOf(",") != -1) { //contem mais de 1 atributo1 na instrucao
-							String y[] = atributo1.split(",");
-							atributo1 = y[0];
-							atributo2 = y[1];	
-							ins = new Instrucao(instrucao,Integer.parseInt(atributo1),Integer.parseInt(atributo2));
-						}
-						
-						else {
-							atributo2 = null;
-							ins = new Instrucao(instrucao,Integer.parseInt(atributo1));
-						}
 
-							instrucoes.add(ins);
-							
-							
-							//textArea.append(ins.instrucao+' '+ ins.atributo1 +'\n');		
-							
-						System.out.println(ins.instrucao+'\n');
-					
-					}
-					
-				} catch(Exception erro) {
-					
-				}
-				//JOptionPane.showMessageDialog(null, "Nome: " +txtName.getText());
-			}
-			
-		});
-		
-		txtName = new JTextField();
-		txtName.setColumns(10);
-		
 		EntradaScrollPane = new JScrollPane();
-		EntradaScrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de entrada", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		EntradaScrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
+				"Janela de entrada", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
 		EntradaScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		
+
 		table = new JTable();
-		
+
 		table_1 = new JTable();
-		
+
 		JScrollPane InstrucoesExecutarscrollPane = new JScrollPane();
-		
+
 		ConteudoPilhascrollPane = new JScrollPane();
-		
+
 		SaindascrollPane = new JScrollPane();
-		SaindascrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de Saída", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		SaindascrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
+				"Janela de Saï¿½da", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
 		SaindascrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		
+
 		BreakPointscrollPane = new JScrollPane();
-		BreakPointscrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de Break Point", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		BreakPointscrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
+				"Janela de Break Point", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
 		BreakPointscrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-							.addGap(63)
-							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 1185, Short.MAX_VALUE))
+							.addComponent(EntradaScrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+							.addGap(86)
+							.addComponent(BreakPointscrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addContainerGap()
-									.addComponent(EntradaScrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-									.addGap(86)
-									.addComponent(BreakPointscrollPane, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(4)
-									.addComponent(InstrucoesExecutarscrollPane, GroupLayout.PREFERRED_SIZE, 767, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(ConteudoPilhascrollPane, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(44)
-									.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)))))
+							.addGap(4)
+							.addComponent(InstrucoesExecutarscrollPane, GroupLayout.PREFERRED_SIZE, 767, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(ConteudoPilhascrollPane, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(44)
+							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, 321, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -247,37 +204,23 @@ public class viewMain extends JFrame {
 							.addGap(61)
 							.addComponent(table_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(ConteudoPilhascrollPane, 0, 0, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(EntradaScrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 						.addComponent(BreakPointscrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 						.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton)))
+					.addGap(59))
 		);
-		
+
 		table_Pilha = new JTable();
-		table_Pilha.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-			},
-			new String[] {
-				"Valor", "Endere\u00E7o"
-			}
-		));
+		table_Pilha.setModel(
+				new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Valor", "Endere\u00E7o" }));
 		ConteudoPilhascrollPane.setViewportView(table_Pilha);
-		
+
 		table_Instrucoes = new JTable();
-		table_Instrucoes.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Linha", "Instru\u00E7\u00E3o", "Atributo #1", "Atributo #2", "Coment\u00E1rio"
-			}
-		));
+		tm = new InstrucoesTableModel();
+		table_Instrucoes.setModel(tm);
+
 		table_Instrucoes.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table_Instrucoes.getColumnModel().getColumn(1).setPreferredWidth(65);
 		table_Instrucoes.getColumnModel().getColumn(2).setPreferredWidth(82);
@@ -285,9 +228,63 @@ public class viewMain extends JFrame {
 		table_Instrucoes.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table_Instrucoes.getColumnModel().getColumn(4).setMinWidth(22);
 		InstrucoesExecutarscrollPane.setViewportView(table_Instrucoes);
-		
+
 		textArea = new JTextArea();
 		EntradaScrollPane.setRowHeaderView(textArea);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource() == btnOpen) {
+			int returnVal = fileChooser.showOpenDialog(viewMain.this);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				file = fileChooser.getSelectedFile();
+				filePath = file.getAbsolutePath();
+				caminho = Paths.get(filePath);
+				System.out.println("Opening: " + file.getName() + ".");
+
+				String instrucao = null;
+				String atributo2 = null;
+				String atributo1 = null;
+
+				Instrucao ins;
+
+				List<String> linhas;
+				try {
+					linhas = Files.readAllLines(caminho);
+					for (int i = 0; i < linhas.size(); i++) {
+						String x[] = linhas.get(i).split(" ");
+						instrucao = x[0];
+						atributo1 = x[1];
+
+						if (atributo1.indexOf(",") != -1) { // contem mais de 1 atributo1 na instrucao
+							String y[] = atributo1.split(",");
+							atributo1 = y[0];
+							atributo2 = y[1];
+							ins = new Instrucao(instrucao, Integer.parseInt(atributo1), Integer.parseInt(atributo2));
+						}
+
+						else {
+							ins = new Instrucao(instrucao, Integer.parseInt(atributo1));
+						}
+
+						instrucoes.add(ins);
+						System.out.println(ins.instrucao + '\n');
+
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				tm = new InstrucoesTableModel(instrucoes);
+				table_Instrucoes.setModel(tm);
+				tm.addRows();
+
+			}
+		}
+
 	}
 }
