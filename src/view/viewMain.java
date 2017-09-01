@@ -67,6 +67,7 @@ import javax.swing.JTable;
 import javax.swing.JMenu;
 import javax.swing.table.DefaultTableModel;
 
+import src.MV.Instrucao;
 import src.MV.InstrucoesTableModel;
 
 import javax.swing.JFileChooser;
@@ -257,23 +258,28 @@ public class viewMain extends JFrame implements ActionListener {
 					linhas = Files.readAllLines(caminho);
 					for (int i = 0; i < linhas.size(); i++) {
 						String x[] = linhas.get(i).split(" ");
-						instrucao = x[0];
-						atributo1 = x[1];
-
-						if (atributo1.indexOf(",") != -1) { // contem mais de 1 atributo1 na instrucao
-							String y[] = atributo1.split(",");
-							atributo1 = y[0];
-							atributo2 = y[1];
-							ins = new Instrucao(instrucao, Integer.parseInt(atributo1), Integer.parseInt(atributo2));
+		
+						if(x.length > 1) {
+							instrucao = x[0];
+							atributo1 = x[1];
+	
+							if (atributo1.indexOf(",") != -1) { // contem mais de 1 atributo1 na instrucao
+								String y[] = atributo1.split(",");
+								atributo1 = y[0];
+								atributo2 = y[1];
+								ins = new Instrucao(instrucao, atributo1, atributo2);
+							}
+	
+							else {
+								ins = new Instrucao(instrucao, atributo1);
+							}
+	
 						}
-
 						else {
-							ins = new Instrucao(instrucao, Integer.parseInt(atributo1));
+							instrucao = x[0];
+							ins = new Instrucao(instrucao);
 						}
-
 						instrucoes.add(ins);
-						System.out.println(ins.instrucao + '\n');
-
 					}
 				} catch (IOException e1) {
 					e1.printStackTrace();

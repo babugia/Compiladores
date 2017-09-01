@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import src.view.Instrucao;
+import src.MV.Instrucao;
 
 public class InstrucoesTableModel extends AbstractTableModel {
 	
