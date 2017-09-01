@@ -161,8 +161,7 @@ public class viewMain extends JFrame implements ActionListener {
 		ConteudoPilhascrollPane = new JScrollPane();
 
 		SaindascrollPane = new JScrollPane();
-		SaindascrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null),
-				"Janela de Sa�da", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
+		SaindascrollPane.setViewportBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Janela de Sa\u00EDda", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0)));
 		SaindascrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		BreakPointscrollPane = new JScrollPane();

@@ -1,4 +1,4 @@
-//classe com a funÁ„o de ler um arquivo fonte
+//classe com a fun√ß√£o de ler um arquivo fonte
 
 
 package src.COMPILADOR;
@@ -16,7 +16,7 @@ public class LeituraDeArquivo
 
     public LeituraDeArquivo(String path) throws IOException 
     {
-        FileInputStream abertura = new FileInputStream(path); //abertura seria o objeto respons·el pela abertura do arquivo
+        FileInputStream abertura = new FileInputStream(path); //abertura seria o objeto respons√°vel pela abertura do arquivo
         this.leituracaracteres = new InputStreamReader(abertura); //leitura de caracteres
     }
 
@@ -26,7 +26,7 @@ public class LeituraDeArquivo
         {
             if(this.caracter != -1)
             {
-                this.caracter = leituracaracteres.read(); //mÈtodo read que retorna um inteiro que representa o caracter 
+                this.caracter = leituracaracteres.read(); //m√©todo read que retorna um inteiro que representa o caracter 
                 return caracter;
             }
             else

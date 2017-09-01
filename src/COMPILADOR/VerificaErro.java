@@ -1,5 +1,5 @@
-// est· classe ser· a classe de erro, iremos elencar os tipos de erros que acontecer·
-//no compilador, por exemplo: erros lÈxico, sint·tico e semantico
+// est√° classe ser√° a classe de erro, iremos elencar os tipos de erros que acontecer√°
+//no compilador, por exemplo: erros l√©xico, sint√°tico e semantico
 
 package src.COMPILADOR;
 
@@ -15,12 +15,12 @@ public class VerificaErro
     
     public void verificaErroLexico (int linhaErro, int cod) throws Exception
     {
-        JOptionPane.showMessageDialog(null, "Erro de compilaÁ„o", "Erro", JOptionPane.ERROR_MESSAGE);
-        System.out.println("Erro Lexico identificado na linha: " +linhaErro+ "  DescriÁ„o: "+codigoDoErro(cod));
-        throw new Exception("Erro lÈxico. DescriÁ„o: "+codigoDoErro(cod));
+        JOptionPane.showMessageDialog(null, "Erro de compila√ß√£o", "Erro", JOptionPane.ERROR_MESSAGE);
+        System.out.println("Erro Lexico identificado na linha: " +linhaErro+ "  Descri√ß√£o: "+codigoDoErro(cod));
+        throw new Exception("Erro l√©xico. Descri√ß√£o: "+codigoDoErro(cod));
     }
     
-    //mÈtodo para verificar o cÛdigo do erro e assim mostrar para o usu·rio
+    //m√©todo para verificar o c√≥digo do erro e assim mostrar para o usu√°rio
     public String codigoDoErro (int cod)
     {
         switch(cod)
@@ -38,7 +38,7 @@ public class VerificaErro
             case 6:
                 return "Falta ',' ou ':'";
             case 7:
-                return "Falta atribuiÁ„o de tipo";
+                return "Falta atribui√ß√£o de tipo";
             case 8:
                 return "Falta 'inicio'";
             case 9:
@@ -54,37 +54,37 @@ public class VerificaErro
             case 14:
                 return "Erro, sem o } para terminar o comentario.";
             case 15:
-                return "Erro, palavra n„o pertence a linguagem.";
+                return "Erro, palavra n√£o pertence a linguagem.";
             case 16:
                 return "Posicao invalida";
             case 17:
                 return "Erro, Final do vetor de tokens atingido.";
             case 18:
-                return "AtribuiÁ„o de funÁ„o repetida";
+                return "Atribu√ß√£o de fun√ß√£o repetida";
             case 19:
-                return "⁄ltimo comando n„o era a atribuiÁ„o da funÁ„o";
+                return "√öltimo comando n√°o era a atribui√ß√£o da fun√ß√£o";
             case 20:
-                return "Var n„o existe";
+                return "Var n√£o existe";
             case 21:
-                return "Tipo da Express„o inv·lida";
+                return "Tipo da Express√£o inv√°lida";
             case 22:
-                return "Tipo da Express„o inv·lida";
+                return "Tipo da Express√£o inv√°lida";
             case 23:
-                return "Sidentificador n„o encontrado";
+                return "Sidentificador n√£o encontrado";
             case 24:
-                return "Identificador n„o existe";
+                return "Identificador n√£o existe";
             case 25:
-                return "Expressao inv·lida, n„o È booleana";
+                return "Expressao inv√°lida, n√£o √© booleana";
             case 26:
-                return "Express„ n„o È booleana";
+                return "Express√£o n√£o √© booleana";
             case 27:
-                return "Sidentificador inv·lido, var n„o declarada";
+                return "Sidentificador inv√°lido, var n√£o declarada";
             case 28:
-                return "Sidentificador inv·lido, funÁ„o j· existe";
+                return "Sidentificador inv√°lido, fun√ß√£o j√° existe";
             case 29:
-                return "Sidentificador inv·lido";
+                return "Sidentificador inv√°lido";
             case 30:
-                return "Sidentificador inv·lido, procedimento n„o encontrado";
+                return "Sidentificador inv√°lido, procedimento n√£o encontrado";
         }
         return "Erro nao encontrado";
     }

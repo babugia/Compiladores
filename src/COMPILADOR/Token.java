@@ -1,5 +1,5 @@
-/* Cada ìtokenî representa um sÌmbolo v·lido na linguagem LPD. Est· classe
- * È respons·vel por verificar todos esses simbolos, como por exemplo sfim, sinicio, etc..
+/* Cada token representa um s√≠mbolo v√°lido na linguagem LPD. Est√° classe
+ * √© respons√°vel por verificar todos esses simbolos, como por exemplo sfim, sinicio, etc..
  * */
 
 
@@ -13,9 +13,9 @@ public class Token {
     private final int linha;
     
     public Token(String simbolo, String lexema, int linha) throws Exception
-    { //construtor da classe Token para fazer as respectivas verificaÁıes v·lidas
-        if(lexema == null) throw new Exception("Lexema inv·lido");
-        if(simbolo == null) throw new Exception("SÌmbolo inv·lido");
+    { //construtor da classe Token para fazer as respectivas verifica√ß√µes v√°lidas
+        if(lexema == null) throw new Exception("Lexema inv√°lido");
+        if(simbolo == null) throw new Exception("S√≠mbolo inv√°lido");
         this.simbolo = simbolo;
         this.lexema = lexema;
         this.linha = linha;
@@ -37,14 +37,14 @@ public class Token {
         return linha;
     }
     
-    //string de retorno com o resultado do lÈxico montado
+    //string de retorno com o resultado do l√©xico montado
     public String toString()
     {
-        return "SÌmbolo\t: "+simbolo+"\nLexema\t: "+lexema+"\nCÛdigo\t: "+simboloCodigo()+"\nLinha\t: "+linha;
+        return "S√≠mbolo\t: "+simbolo+"\nLexema\t: "+lexema+"\nC√≥digo\t: "+simboloCodigo()+"\nLinha\t: "+linha;
     }
     
     
-    //mÈtodo que representa o simbolo e o seu respectivo cÛdigo, exemplo: sprograma, sinicio... 
+    //m√©todo que representa o simbolo e o seu respectivo c√≥digo, exemplo: sprograma, sinicio... 
     public int simboloCodigo()
     {
        switch (simbolo)
@@ -133,8 +133,8 @@ public class Token {
        return -1;
     }
     
-    // //mÈtodo que representa o simbolo e o seu respectivo cÛdigo, exemplo: sprograma, sinicio, 
-    // porÈm com passagem de parametro, caso receba algum simbolo
+    // //m√©todo que representa o simbolo e o seu respectivo c√≥digo, exemplo: sprograma, sinicio, 
+    // por√©m com passagem de parametro, caso receba algum simbolo
     public static int simboloCodigo(String simbolo)
     {
         try

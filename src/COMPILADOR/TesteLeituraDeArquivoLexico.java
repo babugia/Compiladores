@@ -6,7 +6,7 @@ import java.io.IOException;
 //Author Murilo Santana
 
 //Classe para testar a leitura do arquivo fonte, 
-//onde é passado por parametro o caminho do diretório no LeituraDeArquivo
+//onde Ã© passado por parametro o caminho do diretÃ³rio no LeituraDeArquivo
 
 public class TesteLeituraDeArquivoLexico {
     
@@ -16,7 +16,7 @@ public class TesteLeituraDeArquivoLexico {
         LeituraDeArquivo leitor = null;
         try 
         {
-            leitor = new LeituraDeArquivo("C:\\Users\\murilo\\Desktop\\teste.txt");
+            leitor = new LeituraDeArquivo("/Users/babugia/Documents/teste1.txt");
         } 
         catch (IOException ex) {}
         do
