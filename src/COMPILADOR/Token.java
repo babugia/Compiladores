@@ -12,10 +12,8 @@ public class Token {
     private final String lexema;
     private final int linha;
     
-    public Token(String simbolo, String lexema, int linha) throws Exception
+    public Token(String simbolo, String lexema, int linha)
     { //construtor da classe Token para fazer as respectivas verificações válidas
-        if(lexema == null) throw new Exception("Lexema inválido");
-        if(simbolo == null) throw new Exception("Símbolo inválido");
         this.simbolo = simbolo;
         this.lexema = lexema;
         this.linha = linha;
@@ -49,7 +47,7 @@ public class Token {
     {
        switch (simbolo)
        {
-       case "sinv" :
+       case "Sinv" :
             return 0;   
        case "sprograma":
            return 1;
@@ -81,54 +79,50 @@ public class Token {
            return 14;
        case "sinteiro":
            return 15;
-       case "sbooleano":
+       case "Sbooleano":
            return 16;
-       case "sidentificador":
+       case "Sidentificador":
            return 17;
-       case "snumero":
+       case "Snumero":
            return 18;
-       case "sponto":
+       case "Sponto":
            return 19;
        case "sponto_virgula":
            return 20;
-       case "svirgula":
+       case "Svirgula":
            return 21;
        case "sabre_parenteses":
            return 22;
        case "sfecha_parenteses":
            return 23;
-       case "smaior":
+       case "Smaior":
            return 24;
-       case "smaiorig":
+       case "Smaiorig":
            return 25;
-       case "sig":
+       case "Sig":
            return 26;
-       case "smenor":
+       case "Smenor":
            return 27;
-       case "smenorig":
+       case "Smenorig":
            return 28;
-       case "sdif":
+       case "Sdif":
            return 29;
-       case "smais":
+       case "Smais":
            return 30;
-       case "smenos":
+       case "Smenos":
            return 31;
-       case "smult":
+       case "Smult":
            return 32;
-       case "sdiv":
+       case "Sdiv":
            return 33;
-       case "se":
+       case "Se":
            return 34;
-       case "sou":
+       case "Sou":
            return 35;
-       case "snao":
+       case "Snao":
            return 36;
-       case "sdoispontos":
+       case "Sdoispontos":
            return 37;
-       case "sverdadeiro":
-           return 38;
-       case "sfalso":
-           return 39;
        }
        return -1;
     }
@@ -142,86 +136,82 @@ public class Token {
             switch (simbolo)
             {
             //Caso seja um inversor de sinal
-            case "sinv" :
-                 return 0;   
-            case "sprograma":
-                return 1;
-            case "sinicio":
-                return 2;
-            case "sfim":
-                return 3;
-            case "sprocedimento":
-                return 4;
-            case "sfuncao":
-                return 5;
-            case "sse":
-                return 6;
-            case "sentao":
-                return 7;
-            case "ssenao":
-                return 8;
-            case "senquanto":
-                return 9;
-            case "sfaca":
-                return 10;
-            case "satribuicao":
-                return 11;
-            case "sescreva":
-                return 12;
-            case "sleia":
-                return 13;
-            case "svar":
-                return 14;
-            case "sinteiro":
-                return 15;
-            case "sbooleano":
-                return 16;
-            case "sidentificador":
-                return 17;
-            case "snumero":
-                return 18;
-            case "sponto":
-                return 19;
-            case "sponto_virgula":
-                return 20;
-            case "svirgula":
-                return 21;
-            case "sabre_parenteses":
-                return 22;
-            case "sfecha_parenteses":
-                return 23;
-            case "smaior":
-                return 24;
-            case "smaiorig":
-                return 25;
-            case "sig":
-                return 26;
-            case "smenor":
-                return 27;
-            case "smenorig":
-                return 28;
-            case "sdif":
-                return 29;
-            case "smais":
-                return 30;
-            case "smenos":
-                return 31;
-            case "smult":
-                return 32;
-            case "sdiv":
-                return 33;
-            case "se":
-                return 34;
-            case "sou":
-                return 35;
-            case "snao":
-                return 36;
-            case "sdoispontos":
-                return 37;
-            case "sverdadeiro":
-                return 38;
-            case "sfalso":
-                return 39;
+            case "Sinv" :
+                return 0;   
+           case "sprograma":
+               return 1;
+           case "sinicio":
+               return 2;
+           case "sfim":
+               return 3;
+           case "sprocedimento":
+               return 4;
+           case "sfuncao":
+               return 5;
+           case "sse":
+               return 6;
+           case "sentao":
+               return 7;
+           case "ssenao":
+               return 8;
+           case "senquanto":
+               return 9;
+           case "sfaca":
+               return 10;
+           case "satribuicao":
+               return 11;
+           case "sescreva":
+               return 12;
+           case "sleia":
+               return 13;
+           case "svar":
+               return 14;
+           case "sinteiro":
+               return 15;
+           case "Sbooleano":
+               return 16;
+           case "Sidentificador":
+               return 17;
+           case "Snumero":
+               return 18;
+           case "Sponto":
+               return 19;
+           case "sponto_virgula":
+               return 20;
+           case "Svirgula":
+               return 21;
+           case "sabre_parenteses":
+               return 22;
+           case "sfecha_parenteses":
+               return 23;
+           case "Smaior":
+               return 24;
+           case "Smaiorig":
+               return 25;
+           case "Sig":
+               return 26;
+           case "Smenor":
+               return 27;
+           case "Smenorig":
+               return 28;
+           case "Sdif":
+               return 29;
+           case "Smais":
+               return 30;
+           case "Smenos":
+               return 31;
+           case "Smult":
+               return 32;
+           case "Sdiv":
+               return 33;
+           case "Se":
+               return 34;
+           case "Sou":
+               return 35;
+           case "Snao":
+               return 36;
+           case "Sdoispontos":
+               return 37;
             }
         }
         catch(Exception ex)
