@@ -266,17 +266,17 @@ public class viewMain extends JFrame implements ActionListener {
 								String y[] = atributo1.split(",");
 								atributo1 = y[0];
 								atributo2 = y[1];
-								ins = new Instrucao(instrucao, atributo1, atributo2);
+								ins = new Instrucao(instrucao, atributo1, atributo2, i);
 							}
 	
 							else {
-								ins = new Instrucao(instrucao, atributo1);
+								ins = new Instrucao(instrucao, atributo1, i);
 							}
 	
 						}
 						else {
 							instrucao = x[0];
-							ins = new Instrucao(instrucao);
+							ins = new Instrucao(instrucao, i);
 						}
 						instrucoes.add(ins);
 					}

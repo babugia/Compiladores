@@ -5,12 +5,18 @@ import java.util.Vector;
 
 //está classe será implementada o analisador lexical, seguindo os respectivos
 //algoritmos que se encontra na apostila
+
+
+//****************** TESTES LEXICO 22/09 ******************************
+
+
 public class AnalisadorLexical {
 
 	LeituraDeArquivo arquivo;
 	char caracter;
 	int linha = 1, leituraDoArquivo = 0;
 	Vector<Token> listaDeTokens;
+	Erro erro = new Erro();
 	
 	
 	public AnalisadorLexical(String caminho) throws IOException{

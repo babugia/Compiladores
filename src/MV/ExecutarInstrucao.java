@@ -41,7 +41,7 @@ public class ExecutarInstrucao {
         if(i == "ADD")      add();
         if(i == "SUB")      sub();
         if(i == "MULT")     mult();
-        if(i == "DIVI")     divi();
+        if(i == "DIV")     div();
         if(i == "INV")      inv();
         if(i == "AND")      and();
         if(i == "OR")       or();
@@ -84,7 +84,7 @@ public class ExecutarInstrucao {
         m_pilha.pop();
     }
     
-    private void divi()
+    private void div()
     {
         //M[s-1]:=M[s-1] div M[s]; s:=s - 1
         res = m_pilha.getValor(2) / m_pilha.getValor(1);

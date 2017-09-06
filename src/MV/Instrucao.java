@@ -3,20 +3,24 @@ package src.MV;
 public class Instrucao {
 	String atributo1, atributo2;
 	String instrucao;
+	int linha;
 	
-	public Instrucao(String instrucao) {
+	public Instrucao(String instrucao, int linha) {
 		this.instrucao = instrucao;
+		this.linha = linha;
 	}
 	
-	public Instrucao(String instrucao, String atributo1) {
+	public Instrucao(String instrucao, String atributo1, int linha) {
 		this.instrucao = instrucao;
 		this.atributo1 = atributo1;
+		this.linha = linha;
 	}
 	
-	public Instrucao(String instrucao, String atributo1, String atributo2) {
+	public Instrucao(String instrucao, String atributo1, String atributo2, int linha) {
 		this.instrucao = instrucao;
 		this.atributo1 = atributo1;
 		this.atributo2 = atributo2;
+		this.linha = linha;
 	}
 	
 	public Instrucao() {
@@ -32,6 +36,9 @@ public class Instrucao {
 	}
 	public String getAtributo2() {
 		return this.atributo2;
+	}
+	public int getLinha() {
+		return linha;
 	}
 	
 	public void setInstrucao(String instrucao) {
