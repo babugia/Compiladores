@@ -5,46 +5,36 @@
 
 package src.COMPILADOR;
 
-//Author: Murilo Santana 
 public class Token {
 	
     private final String simbolo;
     private final String lexema;
     private final int linha;
     
-    public Token(String simbolo, String lexema, int linha)
-    { //construtor da classe Token para fazer as respectivas verificações válidas
+    public Token(String simbolo, String lexema, int linha) {
         this.simbolo = simbolo;
         this.lexema = lexema;
         this.linha = linha;
     }
-    
-    //getters e setters para o simbolo, lexema e linha
-    public String getSimbolo()
-    {
+    public String getSimbolo(){
         return simbolo;
     }
      
-    public String getLexema()
-    {
+    public String getLexema(){
         return lexema;
     }
     
-    public int getLinha()
-    {
+    public int getLinha(){
         return linha;
     }
     
-    //string de retorno com o resultado do léxico montado
-    public String toString()
-    {
+    public String toString(){
         return "Símbolo\t: "+simbolo+"\nLexema\t: "+lexema+"\nCódigo\t: "+simboloCodigo()+"\nLinha\t: "+linha;
     }
     
     
     //método que representa o simbolo e o seu respectivo código, exemplo: sprograma, sinicio... 
-    public int simboloCodigo()
-    {
+    public int simboloCodigo(){
        switch (simbolo)
        {
        case "Sinv" :
@@ -129,12 +119,10 @@ public class Token {
     
     // //método que representa o simbolo e o seu respectivo código, exemplo: sprograma, sinicio, 
     // porém com passagem de parametro, caso receba algum simbolo
-    public static int simboloCodigo(String simbolo)
-    {
+    public static int simboloCodigo(String simbolo){
         try
         {
-            switch (simbolo)
-            {
+            switch (simbolo){
             //Caso seja um inversor de sinal
             case "Sinv" :
                 return 0;   
@@ -214,8 +202,7 @@ public class Token {
                return 37;
             }
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex){
             System.out.println(ex.getMessage()); 
         }
         return 0;

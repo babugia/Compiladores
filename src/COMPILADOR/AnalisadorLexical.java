@@ -14,12 +14,12 @@ public class AnalisadorLexical {
 
 	LeituraDeArquivo arquivo;
 	char caracter;
-	int linha = 1, leituraDoArquivo = 0;
+	int linha = 1, leituraDoArquivo = 0, aux = 0;
 	Vector<Token> listaDeTokens;
 	Erro erro = new Erro();
 	
 	
-	public AnalisadorLexical(String caminho) throws IOException{
+	public AnalisadorLexical(String caminho) throws Exception{
 		listaDeTokens = new Vector<Token>();
 		Token token = null;
 		
@@ -27,12 +27,22 @@ public class AnalisadorLexical {
 		lerCaracter();
 		
 		while(leituraDoArquivo != -1) {
+			if(caracter == '}' || caracter == '@' || caracter == '%' 
+			|| caracter == '#' || caracter == '$' || caracter == 'ˆ' || caracter == '&'
+			 || caracter == '?' || caracter == '/' || caracter == '|' || caracter == '`' || caracter == '['
+			 || caracter == ']' || caracter == '˜') {
+				System.out.println(caracter);
+				erro.erroLexico(linha, 1);
+			}
 			if(caracter == '{') {
+				aux = linha;
 				while(caracter != '}') {
-					if(caracter == '\n') {
+					if(caracter == '\n' || caracter == '\r') {
 						linha++;
 					}
 					lerCaracter();
+					if(leituraDoArquivo == -1)
+                        erro.erroLexico(aux, 2);
 				}
 				lerCaracter();
 				continue;
@@ -47,6 +57,8 @@ public class AnalisadorLexical {
 			}
 			
 			token = nextToken();
+			if(token == null)
+				erro.erroLexico(linha, 1);
 			listaDeTokens.add(token);
 			
 		}

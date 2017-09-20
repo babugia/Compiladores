@@ -67,8 +67,10 @@ import javax.swing.JTable;
 import javax.swing.JMenu;
 import javax.swing.table.DefaultTableModel;
 
+import src.MV.ExecutarInstrucao;
 import src.MV.Instrucao;
 import src.MV.InstrucoesTableModel;
+import src.MV.Pilha;
 
 import javax.swing.JFileChooser;
 
@@ -84,13 +86,12 @@ public class viewMain extends JFrame implements ActionListener {
 	private JTextArea textArea;
 	private JMenuBar menuBar;
 	private JMenu mnNewMenu_Arquivo;
-	private JMenu mnExecutar;
 	private JMenu mnExit;
 	private JTable table;
 	private JTable table_1;
 	private JTable table_Instrucoes;
 	private JScrollPane ConteudoPilhascrollPane;
-	private JTable table_Pilha;
+	private JTable tabelaPilha;
 	private JScrollPane SaindascrollPane;
 	private JScrollPane BreakPointscrollPane;
 	private JFileChooser fileChooser;
@@ -101,6 +102,12 @@ public class viewMain extends JFrame implements ActionListener {
 	private String filePath;
 	private JMenuItem mi;
 	private JButton btnOpen;
+	private JButton btnExec;
+	DefaultTableModel tabPilha;
+	private JTextArea textoSaida;
+	
+	private ExecutarInstrucao processador;
+	Pilha pilha = new Pilha();
 
 	/**
 	 * Launch the application.
@@ -124,6 +131,8 @@ public class viewMain extends JFrame implements ActionListener {
 	 */
 	public viewMain() {
 		instrucoes = new ArrayList<Instrucao>();
+		tabelaPilha = new JTable();
+		tabPilha = (DefaultTableModel) tabelaPilha.getModel();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1062, 600);
@@ -137,9 +146,10 @@ public class viewMain extends JFrame implements ActionListener {
 
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-		mnExecutar = new JMenu("Executar");
-		menuBar.add(mnExecutar);
+		
+		btnExec = new JButton("Executar");
+		btnExec.addActionListener(this);
+		menuBar.add(btnExec);
 
 		mnExit = new JMenu("Exit");
 		menuBar.add(mnExit);
@@ -211,11 +221,41 @@ public class viewMain extends JFrame implements ActionListener {
 						.addComponent(SaindascrollPane, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE))
 					.addGap(59))
 		);
+		
+		textoSaida = new JTextArea();
+		SaindascrollPane.setViewportView(textoSaida);
 
-		table_Pilha = new JTable();
-		table_Pilha.setModel(
-				new DefaultTableModel(new Object[][] { { null, null }, }, new String[] { "Valor", "Endere\u00E7o" }));
-		ConteudoPilhascrollPane.setViewportView(table_Pilha);
+		tabelaPilha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+		tabelaPilha.setModel(new javax.swing.table.DefaultTableModel(
+	            new Object [][] {
+
+	            },
+	            new String [] {
+	                "Endereço", "Valor"
+	            }
+	        ) {
+	            Class[] types = new Class [] {
+	                java.lang.Integer.class, java.lang.Integer.class
+	            };
+	            boolean[] canEdit = new boolean [] {
+	                false, false
+	            };
+
+	            public Class getColumnClass(int columnIndex) {
+	                return types [columnIndex];
+	            }
+
+	            public boolean isCellEditable(int rowIndex, int columnIndex) {
+	                return canEdit [columnIndex];
+	            }
+	        });
+		tabelaPilha.getTableHeader().setReorderingAllowed(false);
+		ConteudoPilhascrollPane.setViewportView(tabelaPilha);
+        if (tabelaPilha.getColumnModel().getColumnCount() > 0) {
+            tabelaPilha.getColumnModel().getColumn(0).setResizable(false);
+            tabelaPilha.getColumnModel().getColumn(1).setResizable(false);
+        }
+		ConteudoPilhascrollPane.setViewportView(tabelaPilha);
 
 		table_Instrucoes = new JTable();
 		tm = new InstrucoesTableModel();
@@ -287,9 +327,58 @@ public class viewMain extends JFrame implements ActionListener {
 				tm = new InstrucoesTableModel(instrucoes);
 				table_Instrucoes.setModel(tm);
 				tm.addRows();
+//				try {
+//					processador = new ExecutarInstrucao(instrucoes);
+//				} catch (Exception e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 
 			}
 		}
+		if (e.getSource() == btnExec) {
+			
+			int i = 0;
+			 while(processador.getInstrucoes().size() > i || !processador.isFim())
+	            {
+	                processador.run();
+	                pilha = processador.getPilha();
+	                zerarTabPilha();
+	                preencherTabPilha(pilha.pilhaSize());
+	                exibirSaida();
+	                i++;
+	            }
+		}
+		
 
 	}
+	
+	 public void zerarTabPilha(){
+	        if(tabPilha.getRowCount() > 0)
+	        {
+	            int rows = tabPilha.getRowCount();
+	            for(int a=rows; a>0; a--)
+	            {
+	                tabPilha.removeRow(a-1);
+	            }
+	        }
+	    }
+	 
+	 public void preencherTabPilha(int tam){
+	        if(tam > 0)
+	        {
+	            for(int a=tam; a>0; a--)
+	            {
+	                tabPilha.addRow(new Integer[]{pilha.getEndereco(a),pilha.getValor(a)});
+	            }
+	        }
+	    }
+	 
+	 public void exibirSaida(){
+	        if(processador.getSaida() != null)
+	        {
+	            textoSaida.append(processador.getSaida()+"\n");
+	            processador.setSaida();
+	        }
+	    }
 }

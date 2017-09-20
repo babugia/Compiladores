@@ -8,15 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//Author Murilo Santana
 
-public class LeituraDeArquivo 
-{
+public class LeituraDeArquivo {
     private int caracter;
     InputStreamReader leituracaracteres;
 
-    public LeituraDeArquivo(String path) throws IOException 
-    {
+    public LeituraDeArquivo(String path) throws IOException {
         FileInputStream abertura = new FileInputStream(path); //abertura seria o objeto responsável pela abertura do arquivo
         this.leituracaracteres = new InputStreamReader(abertura); //leitura de caracteres
     }
