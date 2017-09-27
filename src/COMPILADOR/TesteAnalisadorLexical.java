@@ -9,12 +9,11 @@ public class TesteAnalisadorLexical {
 		Vector<Token> lista;
 		AnalisadorLexical teste = null;
 		try {
-			teste = new AnalisadorLexical("/Users/babugia/Desktop/lexico/teste10.txt");
+			teste = new AnalisadorLexical("/Users/babugia/Desktop/lexico/teste1.txt");
 			lista = teste.pegaTokens();
 			for (int i = 0; i < lista.size(); i++) {
 				System.out.println(lista.get(i)+"\n");
 			}
-			System.out.println("NENHUM TOKEN GERADO");
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class AnalisadorLexical {
-	
-	//SEXTA (06/08) ENTREGAR UML LEXICO COM MUDANCAS DO PROJETO E UML DO SINTATICO, O CERTO EH MOSTRAR OS ERROS
-	//EM ORDEM (EM QUAL LINHA, EX: ERRO LINHA 3, ERRO LINHA 8...), TANTO ERRO LEXICO QUANTO SINTATICO.
-	
-	//TESTES DO SINTATICO = 11/10
 
 	LeituraDeArquivo arquivo;
 	char caracter;
@@ -25,8 +20,6 @@ public class AnalisadorLexical {
 		lerCaracter();
 		
 		while(leituraDoArquivo != -1) {
-			/*
-		}
 			if(caracter == '}' || caracter == '@' || caracter == '%' 
 			|| caracter == '#' || caracter == '$' || caracter == 'ˆ' || caracter == '&'
 			 || caracter == '?' || caracter == '/' || caracter == '|' || caracter == '`' || caracter == '['
@@ -34,12 +27,6 @@ public class AnalisadorLexical {
 				System.out.println(caracter);
 				erro.erroLexico(linha, 1);
 			}
-			*/
-			if(analisarLetras(caracter) == false){
-				System.out.println(caracter);
-				erro.erroLexico(linha, 1);
-			}
-
 			if(caracter == '{') {
 				aux = linha;
 				while(caracter != '}') {
@@ -53,8 +40,8 @@ public class AnalisadorLexical {
 				lerCaracter();
 				continue;
 			}
-//			if(caracter == 'f')
-//				System.out.println("f");
+			if(caracter == 'f')
+				System.out.println("f");
 			if(Character.isWhitespace(caracter)) {
 				if(caracter == '\n') {
 					linha++;
@@ -80,7 +67,7 @@ public class AnalisadorLexical {
         if(Character.isDigit(caracter)){
             return trataDigito();
         }
-        if(analisarLetras(caracter)){
+        if(Character.isAlphabetic(caracter)){
             return trataIdentificadorEPalavraReservada();
         }
         if(caracter ==  ':'){
@@ -128,7 +115,7 @@ public class AnalisadorLexical {
              id = id+caracter;
              lerCaracter();
         }
-        while(Character.isDigit(caracter) || analisarLetras(caracter));
+        while(Character.isDigit(caracter) || Character.isAlphabetic(caracter));
         switch(id){
             case "programa":
                 return new Token("sprograma", id, linha);
@@ -261,22 +248,4 @@ public class AnalisadorLexical {
         }
         return null;
     }
-     
-     private boolean analisarLetras(char caracter) {
-     System.out.println(Character.isWhitespace(caracter));
-     if(!Character.isWhitespace(caracter))
-    	 	System.out.println("entro");
-     
-   	  if(!(Character.toString(caracter).matches("[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]")) && 
-   	  !Character.isDigit(caracter) || !Character.isWhitespace(caracter) || caracter != '\n' || caracter != '\r') { 
-   		  return false;
-   	  }
-   		  
-         return true;
-   }
-     
-//     private boolean isValid(char caracter) {
-//    	 	
-//     }
-
 }
