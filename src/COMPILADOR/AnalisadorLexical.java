@@ -25,20 +25,20 @@ public class AnalisadorLexical {
 		lerCaracter();
 		
 		while(leituraDoArquivo != -1) {
-			/*
-		}
+			
 			if(caracter == '}' || caracter == '@' || caracter == '%' 
-			|| caracter == '#' || caracter == '$' || caracter == 'Ë†' || caracter == '&'
+			|| caracter == '#' || caracter == '$' || caracter == 'ˆ' || caracter == '&'
 			 || caracter == '?' || caracter == '/' || caracter == '|' || caracter == '`' || caracter == '['
-			 || caracter == ']' || caracter == 'Ëœ') {
+			 || caracter == ']' || caracter == 'ˆ') {
+				System.out.println("caracter invalido é "+ caracter);
+				erro.erroLexico(linha, 1);
+				
+			}
+			
+			/*if(analisarLetras(caracter) == false){
 				System.out.println(caracter);
 				erro.erroLexico(linha, 1);
-			}
-			*/
-			if(analisarLetras(caracter) == false){
-				System.out.println(caracter);
-				erro.erroLexico(linha, 1);
-			}
+			}*/
 
 			if(caracter == '{') {
 				aux = linha;
@@ -80,7 +80,7 @@ public class AnalisadorLexical {
         if(Character.isDigit(caracter)){
             return trataDigito();
         }
-        if(analisarLetras(caracter)){
+        if(Character.isLetter(caracter)){
             return trataIdentificadorEPalavraReservada();
         }
         if(caracter ==  ':'){
@@ -119,7 +119,7 @@ public class AnalisadorLexical {
             lerCaracter();
         }
         while(Character.isDigit(caracter));
-        return new Token("Snumero", num, linha);
+        return new Token("snumero", num, linha);
     }
     
     private Token trataIdentificadorEPalavraReservada() {
@@ -128,7 +128,7 @@ public class AnalisadorLexical {
              id = id+caracter;
              lerCaracter();
         }
-        while(Character.isDigit(caracter) || analisarLetras(caracter));
+        while(Character.isDigit(caracter) || Character.isLetter(caracter));
         switch(id){
             case "programa":
                 return new Token("sprograma", id, linha);
@@ -159,19 +159,19 @@ public class AnalisadorLexical {
             case "inteiro":
                 return new Token("sinteiro", id, linha);
             case "booleano":
-                return new Token("Sbooleano", id, linha);
+                return new Token("sbooleano", id, linha);
             case "identificador":
-            		return new Token("Sidentificador", id, linha);
+            	return new Token("sidentificador", id, linha);
             case "div":
-                return new Token("Sdiv", id, linha);
+                return new Token("sdiv", id, linha);
             case "e":
-                return new Token("Se", id, linha);
+                return new Token("se", id, linha);
             case "ou":
-                return new Token("Sou", id, linha); 
+                return new Token("sou", id, linha); 
             case "nao":
-            		return new Token("Snao", id, linha);
+            	return new Token("snao", id, linha);
         }
-        return new Token("Sidentificador", id, linha);
+        return new Token("sidentificador", id, linha);
     }
     
     private Token trataAtribuicao() {
@@ -182,7 +182,7 @@ public class AnalisadorLexical {
             lerCaracter();
             return new Token("satribuicao", atrib, linha);
         }
-        return new Token("Sdoispontos", atrib, linha);
+        return new Token("sdoispontos", atrib, linha);
     }
     
     private Token trataOperadorAritmetico() {
@@ -190,17 +190,17 @@ public class AnalisadorLexical {
         if(caracter == '+')
         {
             lerCaracter();    
-            return new Token("Smais", atrib, linha);
+            return new Token("smais", atrib, linha);
         }
         else if(caracter == '-')
         {
             lerCaracter();
-            return new Token("Smenos", atrib, linha);
+            return new Token("smenos", atrib, linha);
         }
         else 
         {
             lerCaracter();
-            return new Token("Smult", atrib, linha);
+            return new Token("smult", atrib, linha);
         }
     }
     
@@ -208,31 +208,31 @@ public class AnalisadorLexical {
         String operador = ""+caracter;
         if(caracter == '='){
             lerCaracter();
-            return new Token("Sig", operador, linha);
+            return new Token("sig", operador, linha);
         }
         if(caracter == '>'){
             lerCaracter();
             if(caracter == '='){
                 operador = operador+caracter;
                 lerCaracter();
-                return new Token("Smaiorig", operador, linha);
+                return new Token("smaiorig", operador, linha);
             }
-            return new Token("Smaior", operador, linha);
+            return new Token("smaior", operador, linha);
         }
         if(caracter == '<'){
             lerCaracter();
             if(caracter == '='){
                 operador = operador+caracter;
                 lerCaracter();
-                return new Token("Smenorig", operador, linha);
+                return new Token("smenorig", operador, linha);
             }
-            return new Token("Smenor", operador, linha);
+            return new Token("smenor", operador, linha);
         }
         lerCaracter();
         if(caracter == '='){
             operador = operador+caracter;
             lerCaracter();
-            return new Token("Sdif", operador, linha);
+            return new Token("sdif", operador, linha);
         }
         return null;
     }
@@ -253,11 +253,11 @@ public class AnalisadorLexical {
         }
         if(caracter == ','){
             lerCaracter();            
-            return new Token("Svirgula", atrib, linha);
+            return new Token("svirgula", atrib, linha);
         }
         if(caracter == '.'){
             lerCaracter();
-            return new Token("Sponto", atrib, linha); 
+            return new Token("sponto", atrib, linha); 
         }
         return null;
     }

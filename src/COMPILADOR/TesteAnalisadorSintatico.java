@@ -21,7 +21,7 @@ public class TesteAnalisadorSintatico
         AnalisadorSintatico teste = null;
         try
         {
-            teste = new AnalisadorSintatico("C:\\Users\\Murilo\\Desktop\\Sintatico\\teste7.txt");
+            teste = new AnalisadorSintatico("C:\\Users\\Pichau\\Desktop\\testes\\testesintatico\\teste1.txt");
         }
         catch(Exception e)
         {
