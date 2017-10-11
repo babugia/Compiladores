@@ -11,10 +11,7 @@ public class AnalisadorSintatico {
     private int posicaoAtualNoVetor = 0;
     private int finalDoVetor = 0;
     private AnalisadorLexical lexico;
-    private boolean wasFuncAtrib = false;
-	
-	//recebe o caminho do arquivo e começa a execução do sintatico
-	
+		
 	public AnalisadorSintatico(String caminhoArquivo) throws Exception
 	{
 		lexico = new AnalisadorLexical(caminhoArquivo);
@@ -29,7 +26,7 @@ public class AnalisadorSintatico {
 			proximoToken();
             if(token.simboloToCode() == 17)  //sidentificador
             {
-                proximoToken(); //função auxiliar para ler o proximo token
+                proximoToken(); //funcao para ler o proximo token
                 if(token.simboloToCode() == 20) //spontovirgula
                 {
                     analisaBloco();
@@ -45,9 +42,7 @@ public class AnalisadorSintatico {
         }
         else erro.erroSintatico(token.getLinha(),22);
     }
-	
-	//função auxiliar que pega o proximoToken; ou seja vai ler do lexico o token e trazer pra cá
-	
+		
 	private void proximoToken() throws Exception
     {
         if(posicaoAtualNoVetor <= finalDoVetor)
@@ -57,16 +52,13 @@ public class AnalisadorSintatico {
             System.out.println("Simbolo: "+token.getSimbolo()+" Lexema: "+token.getLexema()+ "  linha: "+token.getLinha());
         }
     }
-    
-    //analisa bloco, onde chama as funções de analisar variaveis, rotinas e comandos;
-	//
-	
+    	
     private void analisaBloco () throws Exception
     {
         proximoToken();
-        analisaEtVariaveis();  //função que lê as váriaveis
-        analisaSubRotinas();   //funçao que vai analisar as subRotinas
-        analisaComandos(); //função para analisar os comandos
+        analisaEtVariaveis();
+        analisaSubRotinas();   
+        analisaComandos(); 
     }
     
     private void analisaEtVariaveis() throws Exception
@@ -97,7 +89,7 @@ public class AnalisadorSintatico {
     }
     private void analisaVariaveis() throws Exception
     {
-    	//*********************verificar se é necessário o sinicio******************************
+    	//*********************verificar se e necessario o sinicio******************************
         do
         {
             if(token.simboloToCode() == 17)  //sidentificador
@@ -155,7 +147,7 @@ public class AnalisadorSintatico {
                     proximoToken();
                     if(token.simboloToCode() != 3)  //sfim
                     {
-                        // Se encontrar mais de uma atribuição no mesmo bloco deveria parar aqui
+                        // Se encontrar mais de uma atribuicao no mesmo bloco deveria parar aqui
                         analisaComandoSimples();
                     }
                 }
@@ -200,19 +192,18 @@ public class AnalisadorSintatico {
   
     private void analisaAtribChProcedimento() throws Exception   
     {
-        //Simbolo onde ocorre o STR, ou o label da chamada de proc
         proximoToken();
         if(token.simboloToCode() == 11)  // satribuicao
         {
-               analisaAtribuicao(); //verificar ANALISA ATRIBUIÇÃO DUVIDA    
+               analisaAtribuicao();  
         }
         else
         {            
-            analisaChamadaProcedimento(); //verificar analisa chamada procedimento
+            analisaChamadaProcedimento(); 
         }
     }
     
-    //AQUI VAI O ANALISAATRBUIÇÃO
+    //AQUI VAI O ANALISAATRBUIï¿½ï¿½O
     
     private void analisaLeia() throws Exception
     {
@@ -388,7 +379,6 @@ public class AnalisadorSintatico {
         
     }
     
-   
     private void analisaExpressao() throws Exception
     {
         analisaExpressaoSimples();
@@ -404,7 +394,7 @@ public class AnalisadorSintatico {
     {
         if((token.simboloToCode() == 30) || (token.simboloToCode() == 31))  //smais ou smenos
         {
-            if(token.simboloToCode() == 31) // não adiciona o mais porque ele não faz nada
+            if(token.simboloToCode() == 31) // nao adiciona o mais porque ele nao faz nada // REALMENTE PRECISA DESSE IF?
             	proximoToken();
         }
         analisaTermo();
@@ -415,10 +405,7 @@ public class AnalisadorSintatico {
         }
         
     }
-    
-    /* Deve adicionar os operadores na tabela de simbolos.
-     * @throws Exception 
-     */
+ 
     private void analisaTermo() throws Exception
     {
         analisaFator();
@@ -429,16 +416,11 @@ public class AnalisadorSintatico {
         }
     }
     
-    /**
-     * Vai adicionando os identificadore ou números na tabela de síbolos.
-     * Também adiciona abre e fecha parentesis.
-     * @throws Exception 
-     */
     private void analisaFator() throws Exception
     {
         if(token.simboloToCode() == 17)  //sidentificador
         {
-            //Só vai retornar true se achar uma var ou func
+            //So vai retornar true se achar uma var ou func
                     analisaChamadaFuncao();
         }
         
