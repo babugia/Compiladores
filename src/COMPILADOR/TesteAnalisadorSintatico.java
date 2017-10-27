@@ -9,10 +9,6 @@ package src.COMPILADOR;
 
 import java.util.Vector;;
 
-/**
- *
- * @author Murilo
- */
 public class TesteAnalisadorSintatico 
 {
     
@@ -21,7 +17,7 @@ public class TesteAnalisadorSintatico
         AnalisadorSintatico teste = null;
         try
         {
-            teste = new AnalisadorSintatico("C:\\Users\\Pichau\\Desktop\\testes\\testesintatico\\teste1.txt");
+            teste = new AnalisadorSintatico("/Users/babugia/Desktop/testes/testesintatico/teste4.txt");
         }
         catch(Exception e)
         {

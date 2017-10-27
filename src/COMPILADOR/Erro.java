@@ -11,9 +11,9 @@ public class Erro {
 		throw new Exception("Erro lÃ©xico. DescriÃ§Ã£o: "+codErro(cod));
 	}
 	public void erroSintatico (int linhaErro, int cod) throws Exception{
-        JOptionPane.showMessageDialog(null, "Erro de compilação", "Erro", JOptionPane.ERROR_MESSAGE);
-        System.out.println("Erro Sintatico identificado na linha: " +linhaErro+ "  Descrição: "+codErro(cod));
-        throw new Exception("Erro sintático. Descrição: "+codErro(cod));
+        JOptionPane.showMessageDialog(null, "Erro de compilacao", "Erro", JOptionPane.ERROR_MESSAGE);
+        System.out.println("Erro Sintatico identificado na linha: " +linhaErro+ "  Descricao: "+codErro(cod));
+        throw new Exception("Erro sintatico. Descricao: "+codErro(cod));
     }
 
 	public String codErro(int cod) {
@@ -24,33 +24,33 @@ public class Erro {
 		case 2:
 			return "sem o } para terminar o comentario.";
 		case 3:
-			return "Atribuição mal feita";     //erros léxicos até aqui 
+			return "Atribuicao mal feita";     //erros lexicos ate aqui 
 		case 4:
 			return "Var nao existe"; //daqui pra frente, erros sintaticos
 		case 5:
-			return "Sidentificador não encontrado";
+			return "Sidentificador nao encontrado";
 		case 6:
-			return "Tipo de expressão invalida ";
+			return "Tipo de expresscao invalida ";
 		case 7:
-			return "Sidentificador invalido, procedimento não encontrado";
+			return "Sidentificador invalido, procedimento nao encontrado";
 		case 8:
-			return "Sidentificador invalido, função não encontrada";
+			return "Sidentificador invalido, funcao nao encontrada";
 		case 10:
-			return "Falta ponto e vírgula";
+			return "Falta ponto e virgula";
 		case 11:
 			return "Falta dois pontos";
 		case 12:
-			return "Espera-se identificador depois da vírgula";
+			return "Espera-se identificador depois da virgula";
 		case 13:
 			return "Espera-se somente inteiro ou booleano";
 		case 14:
-			return "Faltando início";
+			return "Faltando inicio";
 		case 15:
 			return "faltando abreparenteses ";
 		case 16:
 			return "faltando fechaparenteses ";
 		case 17:
-			return "faltando comando faça";
+			return "faltando comando faca";
 		case 18:
 			return "faltando comando entao";
 		case 19:
@@ -62,9 +62,7 @@ public class Erro {
 		case 22:
 			return "faltando comando programa";
 		case 23:
-			return "virgula ou dois pontos esperados";
-			
-			
+			return "virgula ou dois pontos esperados";	
 		}
 
 		return "Erro nao encontrado";
