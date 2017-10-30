@@ -3,7 +3,7 @@ package src.COMPILADOR;
 public class Simbolo {
 	Token token;
 	int escopo;
-	String tipo; //variavel, procedimento ou funcao
+	String tipo; //var, procedimento ou funcao
 	
 	public Simbolo(Token token, int escopo, String tipo) { 
 		this.token = token;
