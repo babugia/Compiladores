@@ -13,5 +13,9 @@ public class Variavel extends Simbolo {
 		return tipo;
 	}
 	
+	public void setTipoVar(String tipoVar) {
+		this.tipo = tipoVar;
+	}
+	
 	
 }

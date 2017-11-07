@@ -109,6 +109,7 @@ public class AnalisadorSemantico {
 	
 	
 	// ARRRUMAR O GETTIPO VAR (TEM Q CHECAR SE O TIPO EH INTEIRO
+	//TEM Q TER COLOCADO O IDENTIFICADOR DO TIPOVARIAVEL PRA CONSEGUIR ACESSAR O GetTipoVar
 	
 	//ANALISA LEIA
 	public boolean pesquisaVarTabela(Variavel var) {

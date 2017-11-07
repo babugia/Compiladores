@@ -94,6 +94,7 @@ public class AnalisadorSintatico {
         {
             if(token.simboloToCode() == 17)  //sidentificador
             {
+            	//INSERIR SIMBOLO TABELA EX: insereTabela(new Simbolo(token, escopo, "var")) ou insereTabela(new Variavel(token, escopo, "var", null))
                 proximoToken();
                 if((token.simboloToCode() == 21) || (token.simboloToCode() == 37)) //svirgula ou sdoispontos
                 {
