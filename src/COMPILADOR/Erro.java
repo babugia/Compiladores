@@ -63,6 +63,12 @@ public class Erro {
 			return "faltando comando programa";
 		case 23:
 			return "virgula ou dois pontos esperados";	
+		case 24:
+			return "variavel já declarada";
+		case 25:
+			return "identificador não existe";
+		case 26:
+			return "Impossível printar procedimentos";
 		}
 
 		return "Erro nao encontrado";

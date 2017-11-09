@@ -14,7 +14,7 @@ public class TabelaDeSimbolos {
 		this.simbolos = simbolos;
 	}
 	
-	public void insereTabela(Simbolo simbolo) {
+	public void add(Simbolo simbolo) {
 		simbolos.add(simbolo);
 	}
 	

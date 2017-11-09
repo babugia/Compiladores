@@ -11,10 +11,15 @@ public class AnalisadorSintatico {
     private int posicaoAtualNoVetor = 0;
     private int finalDoVetor = 0;
     private AnalisadorLexical lexico;
+    private AnalisadorSemantico semantico;
+    private TabelaDeSimbolos tabeladesimbolos;
+    int escopo = 0;
 		
 	public AnalisadorSintatico(String caminhoArquivo) throws Exception
 	{
 		lexico = new AnalisadorLexical(caminhoArquivo);
+		semantico = new AnalisadorSemantico();
+		tabeladesimbolos = new TabelaDeSimbolos();
         vetorDeTokens = lexico.pegaTokens();
         finalDoVetor = vetorDeTokens.size();
         token = vetorDeTokens.get(posicaoAtualNoVetor);  //Recebe primeiro token
@@ -89,12 +94,17 @@ public class AnalisadorSintatico {
     }
     private void analisaVariaveis() throws Exception
     {
-    	//*********************verificar se e necessario o sinicio******************************
         do
         {
             if(token.simboloToCode() == 17)  //sidentificador
             {
-            	//INSERIR SIMBOLO TABELA EX: insereTabela(new Simbolo(token, escopo, "var")) ou insereTabela(new Variavel(token, escopo, "var", null))
+            	Variavel s = new Variavel(token,escopo, "var",null);
+            	if(semantico.pesquisaIdentificadorTabela(s)) 
+            		  erro.erroSintatico(token.getLinha(), 24);
+            	
+            	//insereTabela(new Simbolo(token, escopo, "var")) ou insereTabela(new Variavel(token, escopo, "var", null))
+            	tabeladesimbolos.add(s);
+            	
                 proximoToken();
                 if((token.simboloToCode() == 21) || (token.simboloToCode() == 37)) //svirgula ou sdoispontos
                 {
@@ -116,11 +126,13 @@ public class AnalisadorSintatico {
             {
                 erro.erroSintatico(token.getLinha(),5);
             }
-        }
+          }
+        
         while(token.simboloToCode() != 37);  //sdoispontos
         proximoToken();
         analisaTipo();
     }
+        
     
     private void analisaTipo() throws Exception
     {
@@ -130,6 +142,7 @@ public class AnalisadorSintatico {
         }
         else
         {
+        	semantico.colocaTipoTabela(token.getLexema());
             proximoToken();
         }
     }
@@ -196,6 +209,7 @@ public class AnalisadorSintatico {
         proximoToken();
         if(token.simboloToCode() == 11)  // satribuicao
         {
+        	   
                analisaAtribuicao();  
         }
         else
@@ -215,7 +229,13 @@ public class AnalisadorSintatico {
             proximoToken();
             if(token.simboloToCode() == 17)  //sidentificador
             {
+            	if(semantico.pesquisaVarTabela(token.getLexema(),escopo)) {  //checar tipo INTEIRO**********
+            		
+            	}
                 proximoToken();
+                
+                
+                
                 if(token.simboloToCode() == 23)  //sfechaparenteses
                 {
                     proximoToken();
@@ -244,15 +264,24 @@ public class AnalisadorSintatico {
             proximoToken();
             if(token.simboloToCode() == 17) //sidentificador
             {
-                proximoToken();
-                if(token.simboloToCode() == 23)  //sfechaparenteses
-                {
-                    proximoToken();
-                }
-                else
-                {
-                    erro.erroSintatico(token.getLinha(),16);
-                }
+            	
+            	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo)) 
+            	{
+	                proximoToken();
+	                if(token.simboloToCode() == 23)  //sfechaparenteses
+	                {
+	                    proximoToken();
+	                }
+	                else
+	                {
+	                    erro.erroSintatico(token.getLinha(),16);
+	                }
+            	}
+            	else
+            	{
+            		erro.erroSintatico(token.getLinha(), 26);
+            	}
+            
             }
             else
             {
@@ -329,6 +358,8 @@ public class AnalisadorSintatico {
         proximoToken();
         if(token.simboloToCode() == 17)  //sidentificador
         {
+        	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo)) 
+        	{
                 proximoToken();
                 if(token.simboloToCode() == 20)  //spontovirgula
                 {
@@ -338,6 +369,7 @@ public class AnalisadorSintatico {
                 {
                     erro.erroSintatico(token.getLinha(),10);
                 }
+        	}
         }
         else
         {
@@ -389,6 +421,8 @@ public class AnalisadorSintatico {
             proximoToken();
             analisaExpressaoSimples();
         }
+        
+        
     }
     
     private void analisaExpressaoSimples() throws Exception
