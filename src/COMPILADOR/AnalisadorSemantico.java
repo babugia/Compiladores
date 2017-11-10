@@ -171,9 +171,9 @@ public class AnalisadorSemantico {
    }
    public void colocaTipoTabela(String tipo) { 
 	   for(int i=tabelaDeSimbolos.getSimbolos().size(); i>0; i--) {
-		   //PERGUNTAR DANIZINHA 
-		   if(((Variavel) tabelaDeSimbolos.getSimbolos().get(i)).getTipoVar() == null){
-			  ((Variavel) tabelaDeSimbolos.getSimbolos().get(i)).setTipoVar(tipo);   
+		   
+		   if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) {
+			   ((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).setTipoVar(tipo);
 		   }
 	   }
 		
