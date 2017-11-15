@@ -69,6 +69,10 @@ public class Erro {
 			return "identificador não existe";
 		case 26:
 			return "Impossível printar procedimentos";
+		case 27:
+			return "Funcao não declarada";
+		case 28:
+			return "Procedimento não declarado";
 		}
 
 		return "Erro nao encontrado";

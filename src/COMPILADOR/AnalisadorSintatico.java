@@ -229,8 +229,11 @@ public class AnalisadorSintatico {
             proximoToken();
             if(token.simboloToCode() == 17)  //sidentificador
             {
-            	if(semantico.pesquisaVarTabela(token.getLexema(),escopo)) {  //checar tipo INTEIRO**********
-            		
+//            	if(semantico.pesquisaVarTabela(token.getLexema(),escopo)) {  //checar tipo INTEIRO**********
+//            		
+//            	}
+            	if(!semantico.verificaTipoLeia(token.getLexema(),escopo)) {
+            		//ERRO
             	}
                 proximoToken();
                 
@@ -267,6 +270,10 @@ public class AnalisadorSintatico {
             	
             	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo)) 
             	{
+            		
+            		if(!semantico.verificaTipoEscreva(token.getLexema(),escopo))
+            			//ERRO
+            		
 	                proximoToken();
 	                if(token.simboloToCode() == 23)  //sfechaparenteses
 	                {
@@ -386,24 +393,30 @@ public class AnalisadorSintatico {
         proximoToken();
         if(token.simboloToCode() == 17)  //sidentificador
         {
-                proximoToken();
-                if(token.simboloToCode() == 37)  //sdoispontos
-                {
-                    proximoToken();
-                    if((token.simboloToCode() == 15) || (token.simboloToCode() == 16))  //sinteiro ou sbooleano
-                    {
-                        proximoToken();
-                        if(token.simboloToCode() == 20)  //spontovirgula
-                        {
-                            analisaBloco(); //verificar analisa bloco DUUUUUUVIDA
-                        }
-                        else
-                        {
-                            erro.erroSintatico(token.getLinha(),10);
-                        }
-                    }
-                    else erro.erroSintatico(token.getLinha(),13);
-                }
+        	   if(!semantico.pesquisaFuncaoTabela(token.getLexema(),escopo)) 
+        	   {
+        		   
+        		   proximoToken();
+        		   if(token.simboloToCode() == 37)  //sdoispontos
+                   {
+                       proximoToken();
+                       if((token.simboloToCode() == 15) || (token.simboloToCode() == 16))  //sinteiro ou sbooleano
+                       {
+                           proximoToken();
+                           if(token.simboloToCode() == 20)  //spontovirgula
+                           {
+                               analisaBloco(); //verificar analisa bloco DUUUUUUVIDA
+                           }
+                           else
+                           {
+                               erro.erroSintatico(token.getLinha(),10);
+                           }
+                       }
+                       else erro.erroSintatico(token.getLinha(),13);
+                   }
+        		   
+        	   }
+                      
         }
         else
         {
@@ -433,7 +446,7 @@ public class AnalisadorSintatico {
             	proximoToken();
         }
         analisaTermo();
-        while((token.simboloToCode() == 30) || (token.simboloToCode() == 31) || (token.simboloToCode() == 35))  //smais ou smenos ou sou
+        while((token.simboloToCode() == 30) || (token.simboloToCode() == 31) || (token.simboloToCode() == 35))  //smais ou smenos ou snao
         {
             proximoToken();
             analisaTermo();
@@ -509,13 +522,21 @@ public class AnalisadorSintatico {
     
     private void analisaChamadaProcedimento() throws Exception
     {
-        //proximoToken();
+    	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo))
+    	{
+    		erro.erroSintatico(token.getLinha(), 28);
+    	}
     }
     
    
     private void analisaChamadaFuncao() throws Exception
     {
-        proximoToken();
+    	if(!semantico.pesquisaFuncaoTabela(token.getLexema(),escopo))
+    	{
+    		erro.erroSintatico(token.getLinha(), 27);
+    	}
+    	proximoToken();
+        
     }
     
     private void analisaAtribuicao() throws Exception {

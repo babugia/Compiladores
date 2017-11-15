@@ -13,12 +13,13 @@ public class AnalisadorSemantico {
 	
 	//M�todo responsavel por pesquisar se existe duplicidade na declara��o
 	//de um identificador
+	//verificacao da ocorrencia da duplicidadade na declaracao de um identificador pag 83 1
 	public boolean pesquisaIdentificadorTabela(Simbolo s) {
-		if(s.getTipo()=="var") {
+		if(s instanceof Variavel) { //s.getTipo()=="var"
 			for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
 				
 				//VERIFICAR SE JA EXISTE VARIAVEL DECLARADA NO MESMO ESCOPO
-				if(tabelaDeSimbolos.getSimbolos().get(i).tipo=="var"){
+				if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel){ //tabelaDeSimbolos.getSimbolos().get(i).tipo=="var"
 					
 					if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()==s.getEscopo()) {
 						
@@ -28,6 +29,7 @@ public class AnalisadorSemantico {
 							
 						}
 					}
+					
 					
 					//SE O SIMBOLO ANALISADO FOR PROC OU FUNC, VER SE JA TEM ALGUM DECLARADO EM ESCOPO MENOR OU IGUAL
 				}else {
@@ -73,7 +75,7 @@ public class AnalisadorSemantico {
 //	}
 	public boolean pesquisaProcedimentoTabela(String lexema, int escopo) {
 		for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
-			if(tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var") {
+			if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Procedimento) { //tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "procedimento"
 				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
 						if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
 							return true;
@@ -102,7 +104,7 @@ public class AnalisadorSemantico {
 //	}
 	public boolean pesquisaFuncaoTabela(String lexema, int escopo) {
 		for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
-			if(tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var") {
+			if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Funcao) { //tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "funcao"
 				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
 						if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
 							return true;
@@ -115,14 +117,15 @@ public class AnalisadorSemantico {
 }
 	
 	//VERIFICAR SE IDENTIFICADOR PODE SER USADO ( SE FOI DECLARADO E EH DO MESMO TIPO JA DECLARADO)
+	//verificacao de uso de identificadores nao declarados
 	//RETORNAR SE PODE SER USADO OU NAO
 	//------------ ERRO 2 PAGINA 83 ---------------------------------------
 	public boolean pesquisaIdentificadoresNaoDeclarados(Simbolo s){
 		
 		for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
 			if(s.getToken().getLexema() == tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()) {
-				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=s.getEscopo()) {
-					if(tabelaDeSimbolos.getSimbolos().get(i).getTipo() != s.getTipo()) {
+				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=s.getEscopo()) { //VER SE ESSE IF DO ESCOPO TA CERTO
+					if(tabelaDeSimbolos.getSimbolos().get(i).getTipo() != s.getTipo()) { //ver se ta certo assim: tabelaDeSimbolos.getSimbolos().get(i).getTipo() != s.getTipo(), tava assim antes
 						return false;
 					}
 				}
@@ -158,7 +161,7 @@ public class AnalisadorSemantico {
 	
 	public boolean pesquisaVarTabela(String lexema, int escopo) {
 			for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
-				if(tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var") {
+				if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) { //tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var"
 					if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
 							if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
 								return true;
@@ -172,10 +175,53 @@ public class AnalisadorSemantico {
    public void colocaTipoTabela(String tipo) { 
 	   for(int i=tabelaDeSimbolos.getSimbolos().size(); i>0; i--) {
 		   
-		   if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) {
-			   ((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).setTipoVar(tipo);
-		   }
+		   //SE FOR UMA VARIAVEL E SE TIVER SEM TIPO DEFINIDO, SETAR TIPO
+		   if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) 
+			   if(((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).getTipoVar() != null)
+				   ((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).setTipoVar(tipo);
 	   }
 		
 	}
+   
+   public boolean verificaTipoLeia(String lexema, int escopo) {
+	   
+	   for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
+			if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) { //tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var"
+				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
+						if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
+							if(((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).getTipoVar() == "inteiro")
+								return true;
+						}
+				}
+			}
+		}
+	   
+	   
+	   return false;
+   }
+   
+public boolean verificaTipoEscreva(String lexema, int escopo) {
+	   
+	   for(int i=0; i<tabelaDeSimbolos.getSimbolos().size(); i++) {
+			if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Variavel) { //tabelaDeSimbolos.getSimbolos().get(i).getTipo() == "var"
+				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
+						if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
+							if(((Variavel)tabelaDeSimbolos.getSimbolos().get(i)).getTipoVar() == "inteiro")
+								return true;
+						}
+				}
+			}else if(tabelaDeSimbolos.getSimbolos().get(i) instanceof Funcao) {
+				if(tabelaDeSimbolos.getSimbolos().get(i).getEscopo()<=escopo) {
+					if(tabelaDeSimbolos.getSimbolos().get(i).getToken().getLexema()==lexema) {
+						if(((Funcao)tabelaDeSimbolos.getSimbolos().get(i)).getRetorno() == "inteiro")
+							return true;
+					}
+			}
+			}
+		}
+	   
+	   
+	   return false;
+   }
+
 }
