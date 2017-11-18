@@ -17,7 +17,6 @@ public class PolonesaReversa {
 	}
 
 	public ArrayList<String> toPolonesaReversaDesempilha() {
-		Pilha p = new Pilha();
 		Stack<String> stack = new Stack<String>();
 		System.out.println(getInfixa());
 
@@ -35,9 +34,10 @@ public class PolonesaReversa {
 					|| ch == "<" || ch == ">=" || ch == "<=" || ch == "!=" 
 					|| ch == "=" || ch == "e" || ch == "ou" || ch == "-u" 
 					|| ch == "+u" || ch == "nao") {
+				
 
 				if (!stack.isEmpty() &&  prioridadeOperandos(ch) > prioridadeOperandos(stack.peek())) {
-					//stack.push(ch);
+					stack.push(ch);
 				} else {
 
 					while (!stack.isEmpty() && prioridadeOperandos(stack.peek()) >= prioridadeOperandos(ch)) {
@@ -45,7 +45,9 @@ public class PolonesaReversa {
 						saida.add(stack.pop());
 					}
 				}
-				stack.push(ch);
+				//stack.push(ch);
+				if(stack.isEmpty())
+					stack.push(ch);
 			}
 			if (ch == "(") {
 				stack.push(ch);
@@ -147,19 +149,16 @@ public class PolonesaReversa {
 		}
 		//VAI DAR BOSTA SE FOR NAO, OU OU E
 		
-		if(c.length == 3) {
-			if(c[0] == 'n')
-				if(c[1] == 'a')
-					if(c[2] == 'o')
-						d = false;			
-		}else if(c.length == 2) {
-			if(c[0] == 'o')
-				if(c[1] == 'u')
-					d = false;
-		}else if(c.length == 1) {
-			if(c[0] == 'e')
-				d = false;
-		}
+	
+		if(s == "nao" || s == "e" || s == "ou" || s == "div")
+			d = false;
+		
+		
+		if(c.length > 1 && (c[0] == '-' || c[0] == '+')) //unarios
+			d = true;
+		
+		//System.out.println(" String: "+s+ " = "+d);
+		
 		return d;
 	}
 }
