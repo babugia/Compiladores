@@ -16,6 +16,14 @@ public class PolonesaReversa {
 		this.infixa = infixa;
 	}
 
+	//  (a+b) > c+d
+	// saida:ab+cd+>
+	//pilha:
+	
+	//dps fzr teste com unarios
+	//  5 + -c , essa expressao tem q virar: 5 + -u c
+	// saida: 5c -u +
+	//pilha:
 	public ArrayList<String> toPolonesaReversaDesempilha() {
 		Stack<String> stack = new Stack<String>();
 		System.out.println(getInfixa());
@@ -36,6 +44,9 @@ public class PolonesaReversa {
 					|| ch == "+u" || ch == "nao") {
 				
 
+				if(ch == "e")
+					System.out.println("achou");
+				
 				if (!stack.isEmpty() &&  prioridadeOperandos(ch) > prioridadeOperandos(stack.peek())) {
 					stack.push(ch);
 				} else {
@@ -44,6 +55,7 @@ public class PolonesaReversa {
 						// saida += stack.pop();
 						saida.add(stack.pop());
 					}
+					stack.push(ch);
 				}
 				//stack.push(ch);
 				if(stack.isEmpty())
@@ -64,6 +76,7 @@ public class PolonesaReversa {
 			// saida += stack.pop();
 			saida.add(stack.pop());
 		}
+		
 		return saida;
 	}
 
@@ -147,17 +160,17 @@ public class PolonesaReversa {
 		if (!Character.isDigit(c[0]) && !Character.isLetter(c[0])) {
 			d = false;
 		}
-		//VAI DAR BOSTA SE FOR NAO, OU OU E
+		//VAI DAR BOSTA SE FOR NAO, OU, E OU DIV
 		
 	
 		if(s == "nao" || s == "e" || s == "ou" || s == "div")
 			d = false;
 		
 		
-		if(c.length > 1 && (c[0] == '-' || c[0] == '+')) //unarios
-			d = true;
+		//if(c.length > 1 && (c[0] == '-' || c[0] == '+')) //unarios
+			//d = true;
 		
-		//System.out.println(" String: "+s+ " = "+d);
+//		System.out.println(" String: "+s+ " = "+d);
 		
 		return d;
 	}

@@ -9,7 +9,7 @@ public class testePolonesaReversa {
 //		teste.add("a");
 //		teste.add(">");
 //		teste.add( "b");
-//		teste.add( "e");
+//		teste.add( "e"); 		//certo
 //		teste.add( "5");
 //		teste.add( "=");
 //		teste.add( "c");
@@ -23,15 +23,15 @@ public class testePolonesaReversa {
 //		teste.add("(");
 //		teste.add("4");
 //		teste.add("+");
-//		teste.add( "5");
+//		teste.add( "5");		//certo
 //		teste.add(")");
 //		teste.add( "*");
 //		teste.add( "3");
 		
-//		teste.add("-u");
+//		teste.add("-u");			//certo
 //		teste.add("a");
 //		teste.add("+");
-//		teste.add( "5");  			//ESSE TA ESTRANHO (ARRUMAR A LOGICA DOS UNARIOS NA INFIXA)
+//		teste.add( "5");  			
 //		teste.add( "*");
 //		teste.add( "+u");
 //		teste.add( "v");
@@ -40,9 +40,9 @@ public class testePolonesaReversa {
 //		teste.add("(");
 //		teste.add("a");
 //		teste.add("+");
-//		teste.add("b");
+//		teste.add("b");			
 //		teste.add(")");
-//		teste.add(">");      //FALTANDO O e, VER SE TA CERTO
+//		teste.add(">");      //CERTO
 //		teste.add("d");
 //		teste.add("ou");
 //		teste.add("c");
@@ -51,19 +51,23 @@ public class testePolonesaReversa {
 //		teste.add("e");
 //		teste.add("f");  
 		
-		teste.add("a");
-		teste.add("+");
-		teste.add("(");
-		teste.add("b");
-		teste.add("div");
-		teste.add("9");
-		teste.add("-");    //FALTANDO O -
-		teste.add("3");
-		teste.add(")");
-		teste.add("*");
-		teste.add("c");   
+		//(a+b) > c+d 
+//		teste.add("(");
+//		teste.add("a");
+//		teste.add("+");
+//		teste.add("b");
+//		teste.add(")");
+//		teste.add(">");
+//		teste.add("c");
+//		teste.add("+");
+//		teste.add("d");
 		
+	//  5 + -c , essa expressao tem q virar: 5 + -u c
 		
+//		teste.add("5");
+//		teste.add("+");
+//		teste.add("-u");
+//		teste.add("c");
 		
 		PolonesaReversa expressaoo = new PolonesaReversa();   
         expressaoo.setInfixa(teste); 
