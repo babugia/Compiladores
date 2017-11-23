@@ -1,14 +1,25 @@
 package src.COMPILADOR;
 
+import java.awt.Window.Type;
 import java.util.ArrayList;
 
 public class AnalisadorSemantico {
 
 	TabelaDeSimbolos tabelaDeSimbolos;
+	private int label = 0;
+	
 	
 	public AnalisadorSemantico() {
 		tabelaDeSimbolos = new TabelaDeSimbolos();
 	}
+	
+	public int getLabel()
+    {
+        
+		int i = label;
+        label++;
+        return i;
+    }
 	
 	
 	//M�todo responsavel por pesquisar se existe duplicidade na declara��o

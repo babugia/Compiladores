@@ -43,9 +43,6 @@ public class PolonesaReversa {
 					|| ch == "=" || ch == "e" || ch == "ou" || ch == "-u" 
 					|| ch == "+u" || ch == "nao") {
 				
-
-				if(ch == "e")
-					System.out.println("achou");
 				
 				if (!stack.isEmpty() &&  prioridadeOperandos(ch) > prioridadeOperandos(stack.peek())) {
 					stack.push(ch);
@@ -107,6 +104,9 @@ public class PolonesaReversa {
 			resp = 7;
 			break;
 		case "+u":
+			resp = 7;
+			break;
+		case "nao":
 			resp = 7;
 			break;
 		case ">":

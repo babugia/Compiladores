@@ -37,6 +37,10 @@ public class AnalisadorSintatico {
                     analisaBloco();
                     if(token.simboloToCode() == 19)  //sponto
                     {
+                    	//finaliza escopo, depois ver
+                    	//GERACAO DE CÓDIGO, GERA DEALLOC E HLT 
+                    	GeradorDeCodigo.getInstance().geraComando(Comandos.DALLOC, 0, 1);
+                        GeradorDeCodigo.getInstance().geraComando(Comandos.HALT);
                         System.out.println("Sucesso!");
                     }
                     else erro.erroSintatico(token.getLinha(),21);
@@ -229,15 +233,14 @@ public class AnalisadorSintatico {
             proximoToken();
             if(token.simboloToCode() == 17)  //sidentificador
             {
-//            	if(semantico.pesquisaVarTabela(token.getLexema(),escopo)) {  //checar tipo INTEIRO**********
-//            		
-//            	}
+            	
             	if(!semantico.verificaTipoLeia(token.getLexema(),escopo)) {
             		//ERRO
             	}
                 proximoToken();
                 
-                
+                //GeradorDeCodigo.getInstance().geraComando(Comandos.RD);
+                //GeradorDeCodigo.getInstance().geraComando(Comandos.STR, semantico.getSimboloType(token).getInfo());
                 
                 if(token.simboloToCode() == 23)  //sfechaparenteses
                 {
@@ -272,9 +275,27 @@ public class AnalisadorSintatico {
             	{
             		
             		if(!semantico.verificaTipoEscreva(token.getLexema(),escopo))
+            		{
             			//ERRO
+            		}
+            		else 
+            		{
+            			/*if(semantico.getSimboloType(token).getClass() == Rotina.class)
+                        {
+                            GeradorDeCodigo.getInstance().geraComando(Comandos.CALL, Comandos.Label+""+semantico.getSimboloType(token).getInfo());
+                            GeradorDeCodigo.getInstance().geraComando(Comandos.LDV, 0);
+                        }
+                        else
+                        {
+                            GeradorDeCodigo.getInstance().geraComando(Comandos.LDV, semantico.getSimboloType(token).getInfo());
+                        }
+                        GeradorDeCodigo.getInstance().geraComando(Comandos.PRINT); */
+            			
+            		}
             		
 	                proximoToken();
+            		
+            		
 	                if(token.simboloToCode() == 23)  //sfechaparenteses
 	                {
 	                    proximoToken();
@@ -302,14 +323,27 @@ public class AnalisadorSintatico {
     }
     
     private void analisaEnquanto() throws Exception
-    {   
+    {
+    	 int label1 = semantico.getLabel();
+    	 int label2 = semantico.getLabel();
+         
+         //Label principal do while
+         GeradorDeCodigo.getInstance().geraLabel(label1);
         proximoToken();
+        label1++;
         analisaExpressao();
         
+        if(semantico.booleanExp())
+        	
             if(token.simboloToCode() == 10) //sfaca
             {
+            	GeradorDeCodigo.getInstance().geraComando(Comandos.JMPF, Comandos.Label+""+label2);
+            	
                 proximoToken();
                 analisaComandoSimples();
+                
+                GeradorDeCodigo.getInstance().geraComando(Comandos.JUMP, Comandos.Label+""+label2);
+                GeradorDeCodigo.getInstance().geraLabel(label2);
             }
             else
             {
@@ -321,26 +355,46 @@ public class AnalisadorSintatico {
     {
         proximoToken();
         analisaExpressao();
+        if(semantico.booleanExp())
+        {
+        	int labelSenao = semantico.getLabel();
+            int labelSe = semantico.getLabel();
+            GeradorDeCodigo.getInstance().geraComando(Comandos.JMPF, Comandos.Label+""+labelSenao);
+            
             if(token.simboloToCode() == 7)  //sentao
             {
                 proximoToken();
                 analisaComandoSimples();
+                
+                GeradorDeCodigo.getInstance().geraComando(Comandos.JUMP, Comandos.Label+""+labelSe);
+                GeradorDeCodigo.getInstance().geraLabel(labelSenao);
+                
                 if(token.simboloToCode() == 8)  //ssenao
                 {
                     proximoToken();
                     analisaComandoSimples();
                 }
+                GeradorDeCodigo.getInstance().geraLabel(labelSe);
             }
             else
             {
                 erro.erroSintatico(token.getLinha(),18);
-            }    
+            } 
+        }
      }
     
     private void analisaSubRotinas() throws Exception
     {
+    	int flag = 0;
+        int label = 0;
+        
         while((token.simboloToCode() == 4) || (token.simboloToCode() == 5))  //sprocedimento ou sfuncao
         {
+        	flag = 1;
+            //Pega um label para pular a rotina
+            label = semantico.getLabel();
+            GeradorDeCodigo.getInstance().geraComando(Comandos.JUMP, Comandos.Label+""+label);
+            
             if(token.simboloToCode() == 4)  //sprocedimento
             {
                 analisaDeclaracaoProcedimento();
@@ -357,6 +411,11 @@ public class AnalisadorSintatico {
             {
                 erro.erroSintatico(token.getLinha(),10);
             }
+            
+            if(flag == 1)
+            {
+                GeradorDeCodigo.getInstance().geraLabel(label);
+            }
         }
     }
     
@@ -367,6 +426,8 @@ public class AnalisadorSintatico {
         {
         	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo)) 
         	{
+        		//GeradorDeCodigo.getInstance().geraLabel(semantico.getSimboloType(token).getInfo());
+        		
                 proximoToken();
                 if(token.simboloToCode() == 20)  //spontovirgula
                 {
@@ -382,6 +443,8 @@ public class AnalisadorSintatico {
         {
             erro.erroSintatico(token.getLinha(),5);
         }
+        
+        GeradorDeCodigo.getInstance().geraComando(Comandos.RETURN);
     }
     
     /**
@@ -402,6 +465,7 @@ public class AnalisadorSintatico {
                        proximoToken();
                        if((token.simboloToCode() == 15) || (token.simboloToCode() == 16))  //sinteiro ou sbooleano
                        {
+                    	   GeradorDeCodigo.getInstance().geraLabel(semantico.getSimboloType(func).getInfo());
                            proximoToken();
                            if(token.simboloToCode() == 20)  //spontovirgula
                            {
@@ -422,7 +486,7 @@ public class AnalisadorSintatico {
         {
             erro.erroSintatico(token.getLinha(),5);
         }
-        
+        GeradorDeCodigo.getInstance().geraComando(Comandos.RETURN);
     }
     
     private void analisaExpressao() throws Exception
@@ -442,7 +506,7 @@ public class AnalisadorSintatico {
     {
         if((token.simboloToCode() == 30) || (token.simboloToCode() == 31))  //smais ou smenos
         {
-            if(token.simboloToCode() == 31) // nao adiciona o mais porque ele nao faz nada // REALMENTE PRECISA DESSE IF?
+            if(token.simboloToCode() == 31) // nao adiciona o mais porque ele nao faz nada 
             	proximoToken();
         }
         analisaTermo();
@@ -522,24 +586,26 @@ public class AnalisadorSintatico {
     
     private void analisaChamadaProcedimento() throws Exception
     {
-    	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo))
-    	{
-    		erro.erroSintatico(token.getLinha(), 28);
-    	}
+//    	if(!semantico.pesquisaProcedimentoTabela(token.getLexema(),escopo))
+//    	{
+//    		GeradorDeCodigo.getInstance().geraComando(Comandos.CALL, Comandos.Label+""+semantico.getSimboloType(t).getInfo());
+//    	}
     }
     
    
     private void analisaChamadaFuncao() throws Exception
     {
-    	if(!semantico.pesquisaFuncaoTabela(token.getLexema(),escopo))
-    	{
-    		erro.erroSintatico(token.getLinha(), 27);
-    	}
+//    	if(!semantico.pesquisaFuncaoTabela(token.getLexema(),escopo))
+//    	{
+//    		erro.erroSintatico(token.getLinha(), 27);
+//    	}
     	proximoToken();
         
     }
     
+    //VEEEEEER DEPOIS ANALISA ATRIBUICAO() 
     private void analisaAtribuicao() throws Exception {
+    	
     	proximoToken();
     	analisaExpressao();
     	                                                                                                                                                   
