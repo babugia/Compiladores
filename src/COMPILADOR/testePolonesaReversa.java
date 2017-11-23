@@ -69,12 +69,67 @@ public class testePolonesaReversa {
 //		teste.add("-u");
 //		teste.add("c");
 		
+//		[a, *, a, +, (, c, div, b, )]
+		
+		//TESTE.TXT SINTATICO
+		
+		teste.add("a");
+		teste.add("*");
+		teste.add("a");
+		teste.add("+");
+		teste.add("(");
+		teste.add("c");
+		teste.add("div");
+		teste.add("b");
+		teste.add(")");
+		
+//		teste.add("-u");
+//		teste.add("b");
+//		teste.add("+");
+//		teste.add("c");
+		
 		PolonesaReversa expressaoo = new PolonesaReversa();   
         expressaoo.setInfixa(teste); 
         ArrayList<String> expressa = new ArrayList<String>();
         expressa = expressaoo.toPolonesaReversaDesempilha();
         System.out.println(expressa);
+        
+        ArrayList<String> valores = new ArrayList<String>();
+        
+        for(int i = 0;i<expressa.size();i++) {
+        		System.out.println(pode(expressa.get(i)));
+        		if(pode(expressa.get(i)) == 2) {
+        			valores.add(expressa.get(i-2));
+        			valores.add(expressa.get(i));
+        			valores.add(expressa.get(i-1));
+        			
+    
+        		}
+        		if(pode(expressa.get(i)) == 1) {
+        			valores.add(expressa.get(i-1));
+        			valores.add(expressa.get(i));
+        		}
+        }
+        
+        System.out.println(valores);
     }  
+	
+	//
+	public static int pode(String s) {
+		// cria um array de char
+		char[] c = s.toCharArray();
+		int retorno = 0;
+			
+		if(s == "nao" || s == "-u")
+			retorno = 1;
+		
+		if(s=="div" || s == "e" || s == "ou" || s == "+" || s == "-" || s == "*"
+				|| s == "=" || s == "!=" || s == "<" || s == ">" || s == "<=" 
+				|| s == ">=" )
+			retorno=2;
+		
+		return retorno;
+	}
 }
 
 

@@ -16,14 +16,14 @@ public class PolonesaReversa {
 		this.infixa = infixa;
 	}
 
-	//  (a+b) > c+d
+	// (a+b) > c+d
 	// saida:ab+cd+>
-	//pilha:
-	
-	//dps fzr teste com unarios
-	//  5 + -c , essa expressao tem q virar: 5 + -u c
+	// pilha:
+
+	// dps fzr teste com unarios
+	// 5 + -c , essa expressao tem q virar: 5 + -u c
 	// saida: 5c -u +
-	//pilha:
+	// pilha:
 	public ArrayList<String> toPolonesaReversaDesempilha() {
 		Stack<String> stack = new Stack<String>();
 		System.out.println(getInfixa());
@@ -38,13 +38,10 @@ public class PolonesaReversa {
 
 			}
 
-			if (ch == "+" || ch == "-" || ch == "*" || ch == "div" || ch == ">"
-					|| ch == "<" || ch == ">=" || ch == "<=" || ch == "!=" 
-					|| ch == "=" || ch == "e" || ch == "ou" || ch == "-u" 
-					|| ch == "+u" || ch == "nao") {
-				
-				
-				if (!stack.isEmpty() &&  prioridadeOperandos(ch) > prioridadeOperandos(stack.peek())) {
+			if (ch == "+" || ch == "-" || ch == "*" || ch == "div" || ch == ">" || ch == "<" || ch == ">=" || ch == "<="
+					|| ch == "!=" || ch == "=" || ch == "e" || ch == "ou" || ch == "-u" || ch == "+u" || ch == "nao") {
+
+				if (!stack.isEmpty() && prioridadeOperandos(ch) > prioridadeOperandos(stack.peek())) {
 					stack.push(ch);
 				} else {
 
@@ -54,8 +51,8 @@ public class PolonesaReversa {
 					}
 					stack.push(ch);
 				}
-				//stack.push(ch);
-				if(stack.isEmpty())
+				// stack.push(ch);
+				if (stack.isEmpty())
 					stack.push(ch);
 			}
 			if (ch == "(") {
@@ -73,12 +70,17 @@ public class PolonesaReversa {
 			// saida += stack.pop();
 			saida.add(stack.pop());
 		}
-		
+
 		return saida;
 	}
 
 	/*
-	 * Prioridade +,0,nao *,/ =,- <,>,!=... e ou
+	 * Prioridade +,-,nao 
+	 * *,div 
+	 * +,-, 
+	 * <,>,!=... 
+	 *	e 
+	 *	ou
 	 */
 
 	// n pode ser char por causa dos operadores >=, !=, -u, ....
@@ -138,40 +140,26 @@ public class PolonesaReversa {
 		return resp;
 	}
 
-	public boolean ehInteiro(String s) {
-		// cria um array de char
-		char[] c = s.toCharArray();
-		boolean d = true;
-		for (int i = 0; i < c.length; i++) {
-			// verifica se o char não é um dígito
-			if (!Character.isDigit(c[i])) {
-				d = false;
-				break;
-			}
-		}
-		return d;
+	public boolean operador(String ch) {
+
+		if (ch == "+" || ch == "-" || ch == "*" || ch == "div" || ch == ">" || ch == "<" || ch == ">=" || ch == "<="
+				|| ch == "!=" || ch == "=" || ch == "e" || ch == "ou" || ch == "-u" || ch == "+u" || ch == "nao")
+			return true;
+
+		return false;
 	}
 
 	public boolean pode(String s) {
-		// cria um array de char
 		char[] c = s.toCharArray();
 		boolean d = true;
-		
+
 		if (!Character.isDigit(c[0]) && !Character.isLetter(c[0])) {
 			d = false;
 		}
-		//VAI DAR BOSTA SE FOR NAO, OU, E OU DIV
-		
-	
-		if(s == "nao" || s == "e" || s == "ou" || s == "div")
+
+		if (s == "nao" || s == "e" || s == "ou" || s == "div")
 			d = false;
-		
-		
-		//if(c.length > 1 && (c[0] == '-' || c[0] == '+')) //unarios
-			//d = true;
-		
-//		System.out.println(" String: "+s+ " = "+d);
-		
+
 		return d;
 	}
 }
