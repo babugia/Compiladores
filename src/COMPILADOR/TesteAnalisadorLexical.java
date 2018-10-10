@@ -9,7 +9,7 @@ public class TesteAnalisadorLexical {
 		Vector<Token> lista;
 		AnalisadorLexical teste = null;
 		try {
-			teste = new AnalisadorLexical("C:\\\\Users\\\\Pichau\\\\Desktop\\\\testes\\\\testesintatico\\\\teste1.txt");
+			teste = new AnalisadorLexical("C:\\Users\\mblabs-13\\Documents\\Compiladores\\Nova pasta\\lexico.txt");
 			lista = teste.pegaTokens();
 			for (int i = 0; i < lista.size(); i++) {
 				System.out.println(lista.get(i)+"\n");

@@ -4,19 +4,13 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class AnalisadorLexical {
-	
-	//SEXTA (06/08) ENTREGAR UML LEXICO COM MUDANCAS DO PROJETO E UML DO SINTATICO, O CERTO EH MOSTRAR OS ERROS
-	//EM ORDEM (EM QUAL LINHA, EX: ERRO LINHA 3, ERRO LINHA 8...), TANTO ERRO LEXICO QUANTO SINTATICO.
-	
-	//TESTES DO SINTATICO = 11/10
 
 	LeituraDeArquivo arquivo;
 	char caracter;
 	int linha = 1, leituraDoArquivo = 0, aux = 0;
 	Vector<Token> listaDeTokens;
 	Erro erro = new Erro();
-	
-	
+		
 	public AnalisadorLexical(String caminho) throws Exception{
 		listaDeTokens = new Vector<Token>();
 		Token token = null;
@@ -35,11 +29,6 @@ public class AnalisadorLexical {
 				
 			}
 			
-			/*if(analisarLetras(caracter) == false){
-				System.out.println(caracter);
-				erro.erroLexico(linha, 1);
-			}*/
-
 			if(caracter == '{') {
 				aux = linha;
 				while(caracter != '}') {
